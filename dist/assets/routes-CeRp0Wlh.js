@@ -1,0 +1,1 @@
+import{t as e}from"./index-DoMxT04_.js";var t=e;export{t as component};
