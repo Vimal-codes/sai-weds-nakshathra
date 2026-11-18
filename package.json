@@ -1,6 +1,7 @@
 {
   "name": "sai-weds-nakshathra",
   "private": true,
+  "homepage": "https://vimal-codes.github.io/sai-weds-nakshathra/",
   "sideEffects": false,
   "type": "module",
   "scripts": {

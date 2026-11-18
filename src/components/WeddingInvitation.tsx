@@ -26,7 +26,8 @@ import camVenueImage from "@/assets/cam-convention-center.png";
 import { Button } from "@/components/ui/button";
 
 const ceremonyDate = new Date("2026-12-03T10:30:00+05:30");
-const venueMaps = "https://www.google.com/maps/search/?api=1&query=CAM+Convention+Center+Moonnamkutty+Kattachira+Kayamkulam";
+const venueMaps =
+  "https://www.google.com/maps/search/?api=1&query=CAM+Convention+Center+Moonnamkutty+Kattachira+Kayamkulam";
 const venueAddress = "CAM Convention Center, Moonnamkutty, Kattachira, Kayamkulam";
 
 /* ---------------------------------- atoms --------------------------------- */
@@ -115,7 +116,15 @@ function Petals() {
         <span
           key={p.id}
           className={`petal petal-${p.tone}`}
-          style={{ left: p.left, width: p.size, height: p.size * 1.4, "--duration": p.duration, "--delay": p.delay } as React.CSSProperties}
+          style={
+            {
+              left: p.left,
+              width: p.size,
+              height: p.size * 1.4,
+              "--duration": p.duration,
+              "--delay": p.delay,
+            } as React.CSSProperties
+          }
         />
       ))}
     </div>
@@ -154,19 +163,42 @@ function Navigation() {
   };
 
   return (
-    <nav className={`floating-nav ${scrolled ? "nav-scrolled" : ""}`} aria-label="Wedding navigation">
-      <a href="#home" className="nav-monogram" aria-label="Sai Nath and Dr. Nakshathra home" onClick={(e) => handleScroll(e, "#home")}>
+    <nav
+      className={`floating-nav ${scrolled ? "nav-scrolled" : ""}`}
+      aria-label="Wedding navigation"
+    >
+      <a
+        href="#home"
+        className="nav-monogram"
+        aria-label="Sai Nath and Dr. Nakshathra home"
+        onClick={(e) => handleScroll(e, "#home")}
+      >
         S <Flower className="nav-flower" aria-hidden /> N
       </a>
       <div className="desktop-links">
-        {NAV_LINKS.map(([name, href]) => <a key={href} href={href} onClick={(e) => handleScroll(e, href)}>{name}</a>)}
+        {NAV_LINKS.map(([name, href]) => (
+          <a key={href} href={href} onClick={(e) => handleScroll(e, href)}>
+            {name}
+          </a>
+        ))}
       </div>
-      <Button variant="ghost" size="icon" className="menu-button" onClick={() => setOpen(!open)} aria-expanded={open} aria-label="Toggle menu">
+      <Button
+        variant="ghost"
+        size="icon"
+        className="menu-button"
+        onClick={() => setOpen(!open)}
+        aria-expanded={open}
+        aria-label="Toggle menu"
+      >
         {open ? <X /> : <Menu />}
       </Button>
       {open && (
         <div className="mobile-links">
-          {NAV_LINKS.map(([name, href]) => <a key={href} href={href} onClick={(e) => handleScroll(e, href)}>{name}</a>)}
+          {NAV_LINKS.map(([name, href]) => (
+            <a key={href} href={href} onClick={(e) => handleScroll(e, href)}>
+              {name}
+            </a>
+          ))}
         </div>
       )}
     </nav>
@@ -184,7 +216,9 @@ function Hero() {
       <img src={lotusCorner} alt="" className="hero-lotus hero-lotus-left" />
       <img src={lotusCorner} alt="" className="hero-lotus hero-lotus-right" />
       <div className="hero-copy">
-        <p className="sanskrit reveal" lang="sa">॥ श्री गणेशाय नमः ॥</p>
+        <p className="sanskrit reveal" lang="sa">
+          ॥ श्री गणेशाय नमः ॥
+        </p>
         <Ornament />
         <p className="eyebrow reveal">Together with their families</p>
         <h1 className="reveal-group">
@@ -196,13 +230,23 @@ function Hero() {
         <p className="hero-date reveal">Thursday · 03 December 2026</p>
         <div className="hero-actions reveal">
           <Button asChild size="lg" className="gold-button">
-            <a href="#invitation">Open the Invitation <ChevronDown /></a>
+            <a href="#invitation">
+              Open the Invitation <ChevronDown />
+            </a>
           </Button>
         </div>
       </div>
-      <img src={coupleImage} width={1024} height={1408} alt="Illustration of the groom in a champagne-gold kurta and the bride in a crimson silk saree with gold zari" className="hero-couple" />
+      <img
+        src={coupleImage}
+        width={1024}
+        height={1408}
+        alt="Illustration of the groom in a champagne-gold kurta and the bride in a crimson silk saree with gold zari"
+        className="hero-couple"
+      />
       <a href="#invitation" className="hero-scroll" aria-label="Scroll to the invitation">
-        <span className="hero-scroll-track"><span className="hero-scroll-dot" /></span>
+        <span className="hero-scroll-track">
+          <span className="hero-scroll-dot" />
+        </span>
         scroll
       </a>
     </header>
@@ -216,15 +260,13 @@ function SectionHeading({ eyebrow, children }: { eyebrow?: string; children: Rea
     <div className="section-heading reveal">
       {eyebrow && <p className="eyebrow">{eyebrow}</p>}
       <h2 className="reveal-group">
-        {typeof children === "string" ? (
-          children.split(" ").map((word, i) => (
-            <span key={i} className="inline-block overflow-hidden mr-[0.25em] align-bottom pb-2">
-              <span className="split-word reveal-child">{word}</span>
-            </span>
-          ))
-        ) : (
-          children
-        )}
+        {typeof children === "string"
+          ? children.split(" ").map((word, i) => (
+              <span key={i} className="inline-block overflow-hidden mr-[0.25em] align-bottom pb-2">
+                <span className="split-word reveal-child">{word}</span>
+              </span>
+            ))
+          : children}
       </h2>
       <Ornament />
     </div>
@@ -237,29 +279,52 @@ function InvitationSection() {
   return (
     <section id="invitation" className="section invitation-section">
       <img src={lotusCorner} alt="" loading="lazy" className="section-floral section-floral-left" />
-      <img src={lotusCorner} alt="" loading="lazy" className="section-floral section-floral-right" />
+      <img
+        src={lotusCorner}
+        alt=""
+        loading="lazy"
+        className="section-floral section-floral-right"
+      />
       <div className="section-inner">
         <div className="invite-card reveal-scale">
-          <p className="sanskrit" lang="sa">॥ श्री गणेशाय नमः ॥</p>
+          <p className="sanskrit" lang="sa">
+            ॥ श्री गणेशाय नमः ॥
+          </p>
           <p className="invite-line">Together with their families</p>
           <h2 className="invite-names">Sai Nath</h2>
           <p className="invite-amp">&amp;</p>
           <h2 className="invite-names">Dr. Nakshathra</h2>
           <p className="invite-line invite-request">
-            cordially invite you and your family to join the
-            occasion of their joyous wedding festivities on
+            cordially invite you and your family to join the occasion of their joyous wedding
+            festivities on
           </p>
           <p className="invite-month">December</p>
-          <p className="invite-date-line">Thursday <span>|</span> 03 <span>|</span> 2026</p>
+          <p className="invite-date-line">
+            Thursday <span>|</span> 03 <span>|</span> 2026
+          </p>
           <div className="invite-venue">
-            <p>CAM<br />Convention Center<br />Moonnamkutty<br />Kattachira, Kayamkulam</p>
+            <p>
+              CAM
+              <br />
+              Convention Center
+              <br />
+              Moonnamkutty
+              <br />
+              Kattachira, Kayamkulam
+            </p>
           </div>
           <div className="invite-temple">
             <div className="invite-time invite-time-left">
               <h3>Wedding</h3>
               <p>10:30 AM to 10:45 AM</p>
             </div>
-            <img src={templeImage} alt="Illustrated South Indian temple gopuram rising above lotus blossoms" loading="lazy" width={1024} height={1536} />
+            <img
+              src={templeImage}
+              alt="Illustrated South Indian temple gopuram rising above lotus blossoms"
+              loading="lazy"
+              width={1024}
+              height={1536}
+            />
             <div className="invite-time invite-time-right">
               <h3>Reception</h3>
               <p>6 PM Onwards</p>
@@ -277,10 +342,21 @@ function CoupleSection() {
   return (
     <section id="couple" className="section couple-section">
       <img src={lotusCorner} alt="" loading="lazy" className="section-floral section-floral-left" />
-      <img src={lotusCorner} alt="" loading="lazy" className="section-floral section-floral-right" />
+      <img
+        src={lotusCorner}
+        alt=""
+        loading="lazy"
+        className="section-floral section-floral-right"
+      />
       <div className="section-inner couple-grid reveal-group">
         <figure className="couple-portrait reveal-child">
-          <img src={coupleImage} alt="Sai Nath and Dr. Nakshathra in their wedding attire" loading="lazy" width={1024} height={1408} />
+          <img
+            src={coupleImage}
+            alt="Sai Nath and Dr. Nakshathra in their wedding attire"
+            loading="lazy"
+            width={1024}
+            height={1408}
+          />
         </figure>
         <div className="couple-text">
           <SectionHeading eyebrow="The happy couple">Two Hearts, One Journey</SectionHeading>
@@ -292,7 +368,8 @@ function CoupleSection() {
               <span className="parents-name">Mr. Viswanathan &amp; Mrs. Manju Viswanath</span>
             </p>
             <p className="couple-address">
-              Koyickleth<br />
+              Koyickleth
+              <br />
               Muthukulam South P.O., Alappuzha
             </p>
           </article>
@@ -304,7 +381,8 @@ function CoupleSection() {
               <span className="parents-name">Mr. Reghunathan &amp; Mrs. Sobha R Nath</span>
             </p>
             <p className="couple-address">
-              Nakshtralayam, Cherukunnam<br />
+              Nakshtralayam, Cherukunnam
+              <br />
               Thekkekkara P.O., Mavelikara, Alappuzha
             </p>
           </article>
@@ -320,7 +398,12 @@ function EventsSection() {
   return (
     <section id="events" className="section events-section">
       <img src={lotusCorner} alt="" loading="lazy" className="section-floral section-floral-left" />
-      <img src={lotusCorner} alt="" loading="lazy" className="section-floral section-floral-right" />
+      <img
+        src={lotusCorner}
+        alt=""
+        loading="lazy"
+        className="section-floral section-floral-right"
+      />
       <div className="section-inner">
         <SectionHeading eyebrow="Save the dates">Wedding Events</SectionHeading>
         <div className="events-grid">
@@ -337,7 +420,9 @@ function EventsSection() {
             <p className="event-venue">CAM Convention Center</p>
             <p className="event-address">Moonnamkutty, Kattachira, Kayamkulam</p>
             <Button asChild size="lg" className="gold-button">
-              <a href={venueMaps} target="_blank" rel="noreferrer"><MapPin /> Get Directions</a>
+              <a href={venueMaps} target="_blank" rel="noreferrer">
+                <MapPin /> Get Directions
+              </a>
             </Button>
           </article>
         </div>
@@ -349,9 +434,24 @@ function EventsSection() {
 /* ------------------------------ gallery section ---------------------------- */
 
 const gallery = [
-  { src: gallerySaree, alt: "Folded crimson Kanjivaram silk saree with gold zari, jasmine flowers and a gold pendant", width: 928, height: 1152 },
-  { src: galleryMandap, alt: "Wedding mandap with marigold garlands, jasmine strings and glowing brass oil lamps", width: 1152, height: 928 },
-  { src: galleryJewellery, alt: "Traditional South Indian gold bridal jewellery on crimson silk", width: 928, height: 1152 },
+  {
+    src: gallerySaree,
+    alt: "Folded crimson Kanjivaram silk saree with gold zari, jasmine flowers and a gold pendant",
+    width: 928,
+    height: 1152,
+  },
+  {
+    src: galleryMandap,
+    alt: "Wedding mandap with marigold garlands, jasmine strings and glowing brass oil lamps",
+    width: 1152,
+    height: 928,
+  },
+  {
+    src: galleryJewellery,
+    alt: "Traditional South Indian gold bridal jewellery on crimson silk",
+    width: 928,
+    height: 1152,
+  },
 ];
 
 function TiltCard({ image, onClick }: { image: (typeof gallery)[number]; onClick: () => void }) {
@@ -367,7 +467,8 @@ function TiltCard({ image, onClick }: { image: (typeof gallery)[number]; onClick
   };
   const handleMouseLeave = () => {
     if (!ref.current) return;
-    ref.current.style.transform = "perspective(1000px) rotateX(0deg) rotateY(0deg) scale3d(1, 1, 1)";
+    ref.current.style.transform =
+      "perspective(1000px) rotateX(0deg) rotateY(0deg) scale3d(1, 1, 1)";
   };
   return (
     <button
@@ -379,7 +480,13 @@ function TiltCard({ image, onClick }: { image: (typeof gallery)[number]; onClick
       onMouseLeave={handleMouseLeave}
       aria-label={`Enlarge ${image.alt}`}
     >
-      <img src={image.src} alt={image.alt} loading="lazy" width={image.width} height={image.height} />
+      <img
+        src={image.src}
+        alt={image.alt}
+        loading="lazy"
+        width={image.width}
+        height={image.height}
+      />
     </button>
   );
 }
@@ -392,14 +499,17 @@ function GallerySection() {
     const onKey = (e: KeyboardEvent) => {
       if (e.key === "Escape") setSelected(null);
       if (e.key === "ArrowRight") setSelected((s) => (s === null ? s : (s + 1) % gallery.length));
-      if (e.key === "ArrowLeft") setSelected((s) => (s === null ? s : (s - 1 + gallery.length) % gallery.length));
+      if (e.key === "ArrowLeft")
+        setSelected((s) => (s === null ? s : (s - 1 + gallery.length) % gallery.length));
     };
     window.addEventListener("keydown", onKey);
     return () => window.removeEventListener("keydown", onKey);
   }, [selected]);
 
   const touchStart = useRef<number | null>(null);
-  const onTouchStart = (e: React.TouchEvent) => { touchStart.current = e.touches[0]?.clientX ?? null; };
+  const onTouchStart = (e: React.TouchEvent) => {
+    touchStart.current = e.touches[0]?.clientX ?? null;
+  };
   const onTouchEnd = (e: React.TouchEvent) => {
     if (touchStart.current === null) return;
     const touchX = e.changedTouches[0]?.clientX;
@@ -420,7 +530,12 @@ function GallerySection() {
   return (
     <section id="gallery" className="section gallery-section">
       <img src={lotusCorner} alt="" loading="lazy" className="section-floral section-floral-left" />
-      <img src={lotusCorner} alt="" loading="lazy" className="section-floral section-floral-right" />
+      <img
+        src={lotusCorner}
+        alt=""
+        loading="lazy"
+        className="section-floral section-floral-right"
+      />
       <div className="section-inner">
         <SectionHeading eyebrow="A glimpse of what awaits">Moments of Love</SectionHeading>
         <div className="gallery-grid reveal-group">
@@ -430,11 +545,46 @@ function GallerySection() {
         </div>
       </div>
       {current && (
-        <div className="lightbox" role="dialog" aria-modal="true" aria-label="Enlarged gallery image" onClick={() => setSelected(null)} onTouchStart={onTouchStart} onTouchEnd={onTouchEnd}>
-          <Button variant="ghost" size="icon" onClick={() => setSelected(null)} aria-label="Close gallery"><X /></Button>
+        <div
+          className="lightbox"
+          role="dialog"
+          aria-modal="true"
+          aria-label="Enlarged gallery image"
+          onClick={() => setSelected(null)}
+          onTouchStart={onTouchStart}
+          onTouchEnd={onTouchEnd}
+        >
+          <Button
+            variant="ghost"
+            size="icon"
+            onClick={() => setSelected(null)}
+            aria-label="Close gallery"
+          >
+            <X />
+          </Button>
           <img src={current.src} alt={current.alt} />
-          <button type="button" className="lightbox-arrow lightbox-prev" aria-label="Previous image" onClick={(e) => { e.stopPropagation(); setSelected((s) => (s === null ? s : (s - 1 + gallery.length) % gallery.length)); }}>‹</button>
-          <button type="button" className="lightbox-arrow lightbox-next" aria-label="Next image" onClick={(e) => { e.stopPropagation(); setSelected((s) => (s === null ? s : (s + 1) % gallery.length)); }}>›</button>
+          <button
+            type="button"
+            className="lightbox-arrow lightbox-prev"
+            aria-label="Previous image"
+            onClick={(e) => {
+              e.stopPropagation();
+              setSelected((s) => (s === null ? s : (s - 1 + gallery.length) % gallery.length));
+            }}
+          >
+            ‹
+          </button>
+          <button
+            type="button"
+            className="lightbox-arrow lightbox-next"
+            aria-label="Next image"
+            onClick={(e) => {
+              e.stopPropagation();
+              setSelected((s) => (s === null ? s : (s + 1) % gallery.length));
+            }}
+          >
+            ›
+          </button>
         </div>
       )}
     </section>
@@ -458,26 +608,55 @@ function VenueSection() {
   return (
     <section id="venue" className="section venue-section">
       <img src={lotusCorner} alt="" loading="lazy" className="section-floral section-floral-left" />
-      <img src={lotusCorner} alt="" loading="lazy" className="section-floral section-floral-right" />
+      <img
+        src={lotusCorner}
+        alt=""
+        loading="lazy"
+        className="section-floral section-floral-right"
+      />
       <div className="section-inner">
         <SectionHeading eyebrow="Find your way">The Venue</SectionHeading>
         <div className="venue-card reveal-scale">
           <div className="venue-photo">
-            <img src={camVenueImage} alt="CAN Business Center / CAM Convention Center building" loading="lazy" width={1536} height={1024} />
+            <img
+              src={camVenueImage}
+              alt="CAN Business Center / CAM Convention Center building"
+              loading="lazy"
+              width={1536}
+              height={1024}
+            />
           </div>
           <div className="venue-details">
             <h3>CAM Convention Center</h3>
-            <p>Moonnamkutty, Kattachira,<br />Kayamkulam, Kerala</p>
+            <p>
+              Moonnamkutty, Kattachira,
+              <br />
+              Kayamkulam, Kerala
+            </p>
             <div className="venue-times">
-              <span><strong>Muhurtham</strong> 10:30 AM – 10:45 AM</span>
-              <span><strong>Reception</strong> 6:00 PM onwards</span>
+              <span>
+                <strong>Muhurtham</strong> 10:30 AM – 10:45 AM
+              </span>
+              <span>
+                <strong>Reception</strong> 6:00 PM onwards
+              </span>
             </div>
             <div className="venue-actions">
               <Button asChild size="lg" className="gold-button">
-                <a href={venueMaps} target="_blank" rel="noreferrer"><MapPin /> Get Directions</a>
+                <a href={venueMaps} target="_blank" rel="noreferrer">
+                  <MapPin /> Get Directions
+                </a>
               </Button>
               <Button variant="outline" size="lg" className="outline-button" onClick={copyAddress}>
-                {copied ? <><Copy /> Address Copied</> : <><Copy /> Copy Address</>}
+                {copied ? (
+                  <>
+                    <Copy /> Address Copied
+                  </>
+                ) : (
+                  <>
+                    <Copy /> Copy Address
+                  </>
+                )}
               </Button>
             </div>
           </div>
@@ -500,7 +679,12 @@ function CountdownSection() {
   return (
     <section id="countdown" className="section countdown-section">
       <img src={lotusCorner} alt="" loading="lazy" className="section-floral section-floral-left" />
-      <img src={lotusCorner} alt="" loading="lazy" className="section-floral section-floral-right" />
+      <img
+        src={lotusCorner}
+        alt=""
+        loading="lazy"
+        className="section-floral section-floral-right"
+      />
       <Petals />
       <div className="section-inner narrow">
         <SectionHeading eyebrow="Counting every moment">Until We Say Yes</SectionHeading>
@@ -510,8 +694,6 @@ function CountdownSection() {
     </section>
   );
 }
-
-
 
 /* ------------------------------- music player ------------------------------ */
 
@@ -543,12 +725,20 @@ function MusicPlayer() {
     audioRef.current = { context, oscillators };
     setPlaying(true);
   };
-  useEffect(() => () => {
-    audioRef.current?.oscillators.forEach((oscillator) => oscillator.stop());
-    void audioRef.current?.context.close();
-  }, []);
+  useEffect(
+    () => () => {
+      audioRef.current?.oscillators.forEach((oscillator) => oscillator.stop());
+      void audioRef.current?.context.close();
+    },
+    [],
+  );
   return (
-    <Button size="icon" onClick={toggle} className={`music-button ${playing ? "playing" : ""}`} aria-label={playing ? "Pause ambient music" : "Play ambient music"}>
+    <Button
+      size="icon"
+      onClick={toggle}
+      className={`music-button ${playing ? "playing" : ""}`}
+      aria-label={playing ? "Pause ambient music" : "Play ambient music"}
+    >
       {playing ? <Pause /> : <Music2 />}
     </Button>
   );
@@ -589,7 +779,12 @@ function Cursor() {
     };
     const onMouseOver = (e: MouseEvent) => {
       const target = e.target as HTMLElement;
-      if (target.closest("button") || target.closest("a") || target.closest("input") || target.closest("textarea")) {
+      if (
+        target.closest("button") ||
+        target.closest("a") ||
+        target.closest("input") ||
+        target.closest("textarea")
+      ) {
         cursorRef.current?.classList.add("cursor-hover");
       } else {
         cursorRef.current?.classList.remove("cursor-hover");
@@ -629,32 +824,35 @@ function Cursor() {
 
 export function WeddingInvitation() {
   useEffect(() => {
-    const observer = new IntersectionObserver((entries) => {
-      entries.forEach((entry) => {
-        if (entry.isIntersecting) {
-          entry.target.classList.add("revealed");
-          const children = Array.from(entry.target.querySelectorAll(".reveal-child"));
-          children.forEach((child, index) => {
-            (child as HTMLElement).style.transitionDelay = `${index * 120}ms`;
-            child.classList.add("revealed");
-          });
-        } else {
-          entry.target.classList.remove("revealed");
-          const children = Array.from(entry.target.querySelectorAll(".reveal-child"));
-          children.forEach((child) => {
-            (child as HTMLElement).style.transitionDelay = "0ms";
-            child.classList.remove("revealed");
-          });
-        }
-      });
-    }, { threshold: 0.15, rootMargin: "0px 0px -50px 0px" });
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add("revealed");
+            const children = Array.from(entry.target.querySelectorAll(".reveal-child"));
+            children.forEach((child, index) => {
+              (child as HTMLElement).style.transitionDelay = `${index * 120}ms`;
+              child.classList.add("revealed");
+            });
+          } else {
+            entry.target.classList.remove("revealed");
+            const children = Array.from(entry.target.querySelectorAll(".reveal-child"));
+            children.forEach((child) => {
+              (child as HTMLElement).style.transitionDelay = "0ms";
+              child.classList.remove("revealed");
+            });
+          }
+        });
+      },
+      { threshold: 0.15, rootMargin: "0px 0px -50px 0px" },
+    );
 
     const nodes = document.querySelectorAll(".reveal, .reveal-group, .reveal-scale");
     nodes.forEach((node) => observer.observe(node));
 
     const lenis = new Lenis({ autoRaf: true });
 
-    lenis.on("scroll", (e: any) => {
+    lenis.on("scroll", (e: { animatedScroll: number }) => {
       const scrollY = e.animatedScroll;
       const docHeight = document.documentElement.scrollHeight - window.innerHeight;
       const progress = docHeight > 0 ? (scrollY / docHeight) * 100 : 0;
