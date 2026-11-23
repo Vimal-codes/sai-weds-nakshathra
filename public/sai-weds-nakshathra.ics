@@ -1,0 +1,36 @@
+BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//Sai Nath & Dr. Nakshathra//Wedding Invitation//EN
+CALSCALE:GREGORIAN
+METHOD:PUBLISH
+X-WR-CALNAME:Sai Nath & Dr. Nakshathra Wedding
+X-WR-TIMEZONE:Asia/Kolkata
+BEGIN:VTIMEZONE
+TZID:Asia/Kolkata
+TZURL:http://tzurl.org/zoneinfo-outlook/Asia/Kolkata
+X-LIC-LOCATION:Asia/Kolkata
+BEGIN:STANDARD
+TZOFFSETFROM:+0530
+TZOFFSETTO:+0530
+TZNAME:IST
+DTSTART:19700101T000000
+END:STANDARD
+END:VTIMEZONE
+BEGIN:VEVENT
+UID:sai-weds-nakshathra-20261203T103000@vimal-codes.github.io
+DTSTAMP:20261123T000000Z
+DTSTART;TZID=Asia/Kolkata:20261203T103000
+DTEND;TZID=Asia/Kolkata:20261203T112000
+SUMMARY:Wedding Ceremony: Sai Nath & Dr. Nakshathra
+DESCRIPTION:We joyfully invite you to celebrate the auspicious wedding ceremony of Sai Nath & Dr. Nakshathra.\n\n✦ Auspicious Muhurtham: 10:30 AM – 11:20 AM (Dhanu Lagna)\n✦ Venue: CAM Convention Center, Moonnamkutty, Kattachira, Kayamkulam, Kerala
+LOCATION:CAM Convention Center, Moonnamkutty, Kattachira, Kayamkulam, Kerala
+STATUS:CONFIRMED
+TRANSP:OPAQUE
+SEQUENCE:0
+BEGIN:VALARM
+TRIGGER:-PT2H
+ACTION:DISPLAY
+DESCRIPTION:Wedding Ceremony: Sai Nath & Dr. Nakshathra (Muhurtham 10:30 AM)
+END:VALARM
+END:VEVENT
+END:VCALENDAR

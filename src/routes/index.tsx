@@ -38,7 +38,7 @@ export const Route = createFileRoute("/")({
           "@type": "Event",
           name: "Sai Nath & Dr. Nakshathra — Wedding",
           startDate: "2026-12-03T10:30:00+05:30",
-          endDate: "2026-12-03T14:00:00+05:30",
+          endDate: "2026-12-03T11:20:00+05:30",
           eventAttendanceMode: "https://schema.org/OfflineEventAttendanceMode",
           eventStatus: "https://schema.org/EventScheduled",
           location: {

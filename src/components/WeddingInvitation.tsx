@@ -1,15 +1,5 @@
 import { Fragment, useEffect, useRef, useState } from "react";
-import {
-  Calendar,
-  CalendarDays,
-  ChevronDown,
-  Clock3,
-  Copy,
-  MapPin,
-  Music2,
-  Pause,
-  X,
-} from "lucide-react";
+import { Calendar, CalendarDays, ChevronDown, Clock3, Copy, MapPin, Music2, X } from "lucide-react";
 import Lenis from "lenis";
 
 import photo1 from "@/assets/photo/optimized/photo-1.jpg";
@@ -24,17 +14,85 @@ const ceremonyDate = new Date("2026-12-03T10:30:00+05:30");
 const venueMaps =
   "https://www.google.com/maps/search/?api=1&query=CAM+Convention+Center+Moonnamkutty+Kattachira+Kayamkulam";
 const venueAddress = "CAM Convention Center, Moonnamkutty, Kattachira, Kayamkulam, Kerala";
+const icsFileUrl = `${import.meta.env.BASE_URL}sai-weds-nakshathra.ics`;
+
+function handleAddToCalendar(e?: React.MouseEvent) {
+  if (e) {
+    e.preventDefault();
+  }
+
+  const isIOS =
+    typeof navigator !== "undefined" &&
+    /iPad|iPhone|iPod/.test(navigator.userAgent) &&
+    !(window as unknown as { MSStream?: unknown }).MSStream;
+
+  if (isIOS) {
+    // Native Apple Calendar trigger on iOS Safari
+    window.location.href = icsFileUrl;
+    return;
+  }
+
+  // Generate downloadable Blob with text/calendar MIME for Android & desktop
+  const icsLines = [
+    "BEGIN:VCALENDAR",
+    "VERSION:2.0",
+    "PRODID:-//Sai Nath & Dr. Nakshathra//Wedding Invitation//EN",
+    "CALSCALE:GREGORIAN",
+    "METHOD:PUBLISH",
+    "X-WR-CALNAME:Sai Nath & Dr. Nakshathra Wedding",
+    "X-WR-TIMEZONE:Asia/Kolkata",
+    "BEGIN:VTIMEZONE",
+    "TZID:Asia/Kolkata",
+    "TZURL:http://tzurl.org/zoneinfo-outlook/Asia/Kolkata",
+    "X-LIC-LOCATION:Asia/Kolkata",
+    "BEGIN:STANDARD",
+    "TZOFFSETFROM:+0530",
+    "TZOFFSETTO:+0530",
+    "TZNAME:IST",
+    "DTSTART:19700101T000000",
+    "END:STANDARD",
+    "END:VTIMEZONE",
+    "BEGIN:VEVENT",
+    "UID:sai-weds-nakshathra-20261203T103000@vimal-codes.github.io",
+    "DTSTAMP:20261123T000000Z",
+    "DTSTART;TZID=Asia/Kolkata:20261203T103000",
+    "DTEND;TZID=Asia/Kolkata:20261203T112000",
+    "SUMMARY:Wedding Ceremony: Sai Nath & Dr. Nakshathra",
+    "DESCRIPTION:We joyfully invite you to celebrate the auspicious wedding ceremony of Sai Nath & Dr. Nakshathra.\\n\\n✦ Auspicious Muhurtham: 10:30 AM – 11:20 AM (Dhanu Lagna)\\n✦ Venue: CAM Convention Center, Moonnamkutty, Kayamkulam, Kerala",
+    "LOCATION:CAM Convention Center, Moonnamkutty, Kattachira, Kayamkulam, Kerala",
+    "STATUS:CONFIRMED",
+    "TRANSP:OPAQUE",
+    "SEQUENCE:0",
+    "BEGIN:VALARM",
+    "TRIGGER:-PT2H",
+    "ACTION:DISPLAY",
+    "DESCRIPTION:Wedding Ceremony: Sai Nath & Dr. Nakshathra (Muhurtham 10:30 AM)",
+    "END:VALARM",
+    "END:VEVENT",
+    "END:VCALENDAR",
+  ].join("\r\n");
+
+  const blob = new Blob([icsLines], { type: "text/calendar;charset=utf-8" });
+  const url = window.URL.createObjectURL(blob);
+  const link = document.createElement("a");
+  link.href = url;
+  link.setAttribute("download", "sai-weds-nakshathra.ics");
+  document.body.appendChild(link);
+  link.click();
+  document.body.removeChild(link);
+  setTimeout(() => window.URL.revokeObjectURL(url), 2000);
+}
 
 function getGoogleCalendarUrl() {
   const title = encodeURIComponent("Wedding Ceremony: Sai Nath & Dr. Nakshathra");
   const details = encodeURIComponent(
     "We invite you to celebrate the wedding ceremony of Sai Nath & Dr. Nakshathra.\n\n" +
-    "✦ Auspicious Muhurtham: 10:30 AM – 10:45 AM (Dhanu Lagna)\n" +
-    "✦ Venue: CAM Convention Center, Moonnamkutty, Kayamkulam, Kerala",
+      "✦ Auspicious Muhurtham: 10:30 AM – 11:20 AM (Dhanu Lagna)\n" +
+      "✦ Venue: CAM Convention Center, Moonnamkutty, Kayamkulam, Kerala",
   );
   const location = encodeURIComponent(venueAddress);
-  // 10:30 AM IST = 05:00 UTC, 14:00 IST = 08:30 UTC
-  const dates = "20261203T050000Z/20261203T083000Z";
+  // 10:30 AM IST = 05:00 UTC, 11:20 AM IST = 05:50 UTC
+  const dates = "20261203T050000Z/20261203T055000Z";
   return `https://calendar.google.com/calendar/render?action=TEMPLATE&text=${title}&dates=${dates}&details=${details}&location=${location}`;
 }
 
@@ -191,10 +249,10 @@ function SectionHeading({
       <h2 className="reveal-group">
         {typeof children === "string"
           ? children.split(" ").map((word, i) => (
-            <span key={i} className="inline-block overflow-hidden mr-[0.25em] align-bottom pb-2">
-              <span className="split-word reveal-child">{word}</span>
-            </span>
-          ))
+              <span key={i} className="inline-block overflow-hidden mr-[0.25em] align-bottom pb-2">
+                <span className="split-word reveal-child">{word}</span>
+              </span>
+            ))
           : children}
       </h2>
       <TraditionalMotif className="mt-3" />
@@ -240,7 +298,7 @@ function Hero() {
             </span>
             <div className="hero-meta-item">
               <Clock3 className="hero-meta-icon" aria-hidden />
-              <span>Muhurtham 10:30 AM – 10:45 AM</span>
+              <span>Muhurtham 10:30 AM – 11:20 AM</span>
             </div>
           </div>
 
@@ -251,7 +309,7 @@ function Hero() {
               </a>
             </Button>
             <Button asChild variant="outline" size="lg" className="rosegold-outline-button">
-              <a href={getGoogleCalendarUrl()} target="_blank" rel="noreferrer">
+              <a href={icsFileUrl} download="sai-weds-nakshathra.ics" onClick={handleAddToCalendar}>
                 <Calendar className="mr-1.5 w-4 h-4" /> Add to Calendar
               </a>
             </Button>
@@ -346,7 +404,7 @@ function InvitationSection() {
             <div className="invite-schedules">
               <div className="schedule-item">
                 <span className="schedule-label">Auspicious Muhurtham</span>
-                <span className="schedule-time">10:30 AM – 10:45 AM</span>
+                <span className="schedule-time">10:30 AM – 11:20 AM</span>
                 <span className="schedule-sub">Dhanu Lagna · Wedding Ceremony</span>
               </div>
             </div>
@@ -366,7 +424,11 @@ function InvitationSection() {
                 </a>
               </Button>
               <Button asChild variant="outline" size="default" className="rosegold-outline-button">
-                <a href={getGoogleCalendarUrl()} target="_blank" rel="noreferrer">
+                <a
+                  href={icsFileUrl}
+                  download="sai-weds-nakshathra.ics"
+                  onClick={handleAddToCalendar}
+                >
                   <Calendar className="mr-1.5 w-3.5 h-3.5" /> Save Date
                 </a>
               </Button>
@@ -494,7 +556,7 @@ function CountdownSection() {
         <Countdown />
         <div className="countdown-cta reveal mt-8 text-center">
           <Button asChild size="lg" className="rosegold-button">
-            <a href={getGoogleCalendarUrl()} target="_blank" rel="noreferrer">
+            <a href={icsFileUrl} download="sai-weds-nakshathra.ics" onClick={handleAddToCalendar}>
               <Calendar className="mr-2 w-4 h-4" /> Save the Date to Calendar
             </a>
           </Button>
@@ -526,7 +588,7 @@ function EventsSection() {
             <p className="event-date">Thursday, 3 December 2026</p>
             <div className="event-time-wrapper">
               <p className="event-time">
-                <Clock3 aria-hidden /> 10:30 AM – 10:45 AM
+                <Clock3 aria-hidden /> 10:30 AM – 11:20 AM
               </p>
               <span className="event-muhurtham-badge">✦ Auspicious Muhurtham · Dhanu Lagna ✦</span>
             </div>
@@ -539,7 +601,11 @@ function EventsSection() {
                 </a>
               </Button>
               <Button asChild variant="outline" size="default" className="rosegold-outline-button">
-                <a href={getGoogleCalendarUrl()} target="_blank" rel="noreferrer">
+                <a
+                  href={icsFileUrl}
+                  download="sai-weds-nakshathra.ics"
+                  onClick={handleAddToCalendar}
+                >
                   <Calendar className="mr-1.5 w-3.5 h-3.5" /> Add to Calendar
                 </a>
               </Button>
@@ -751,7 +817,7 @@ function VenueSection() {
 
             <div className="venue-times-box">
               <div className="venue-time-badge">
-                <strong>Muhurtham:</strong> 10:30 AM – 10:45 AM
+                <strong>Muhurtham:</strong> 10:30 AM – 11:20 AM
               </div>
             </div>
 
@@ -797,75 +863,180 @@ function VenueSection() {
 
 function MusicPlayer() {
   const [playing, setPlaying] = useState(false);
-  const audioRef = useRef<{ context: AudioContext; nodes: AudioNode[] } | null>(null);
+  const audioContextRef = useRef<AudioContext | null>(null);
+  const masterGainRef = useRef<GainNode | null>(null);
+  const isPlayingRef = useRef(false);
+  const intervalRef = useRef<number | null>(null);
 
-  const toggle = () => {
-    if (audioRef.current) {
-      audioRef.current.nodes.forEach((node) => {
-        if ("stop" in node && typeof (node as OscillatorNode).stop === "function") {
-          (node as OscillatorNode).stop();
+  const stopMusic = () => {
+    if (masterGainRef.current && audioContextRef.current) {
+      const ctx = audioContextRef.current;
+      masterGainRef.current.gain.cancelScheduledValues(ctx.currentTime);
+      masterGainRef.current.gain.linearRampToValueAtTime(0.0001, ctx.currentTime + 0.3);
+      setTimeout(() => {
+        if (audioContextRef.current && audioContextRef.current.state === "running") {
+          void audioContextRef.current.suspend();
         }
-      });
-      void audioRef.current.context.close();
-      audioRef.current = null;
-      setPlaying(false);
-      return;
+      }, 350);
     }
-
-    const AudioContextClass = window.AudioContext;
-    if (!AudioContextClass) return;
-
-    const context = new AudioContextClass();
-    const masterGain = context.createGain();
-    masterGain.gain.setValueAtTime(0.02, context.currentTime);
-    masterGain.connect(context.destination);
-
-    // Warm, meditative acoustic harmonic drone
-    const droneFreqs = [130.81, 196.0, 261.63, 392.0];
-    const nodes: AudioNode[] = [masterGain];
-
-    droneFreqs.forEach((freq, idx) => {
-      const osc = context.createOscillator();
-      const oscGain = context.createGain();
-
-      osc.type = idx % 2 === 0 ? "sine" : "triangle";
-      osc.frequency.setValueAtTime(freq, context.currentTime);
-
-      oscGain.gain.setValueAtTime(0.28 / (idx + 1), context.currentTime);
-      osc.connect(oscGain);
-      oscGain.connect(masterGain);
-
-      osc.start();
-      nodes.push(osc, oscGain);
-    });
-
-    audioRef.current = { context, nodes };
-    setPlaying(true);
+    if (intervalRef.current) {
+      window.clearInterval(intervalRef.current);
+      intervalRef.current = null;
+    }
+    isPlayingRef.current = false;
+    setPlaying(false);
   };
 
-  useEffect(
-    () => () => {
-      if (audioRef.current) {
-        audioRef.current.nodes.forEach((node) => {
-          if ("stop" in node && typeof (node as OscillatorNode).stop === "function") {
-            (node as OscillatorNode).stop();
-          }
+  const startMusic = async () => {
+    try {
+      const AudioCtx =
+        window.AudioContext ||
+        (window as unknown as { webkitAudioContext: typeof AudioContext }).webkitAudioContext;
+      if (!AudioCtx) return;
+
+      if (!audioContextRef.current) {
+        const ctx = new AudioCtx();
+        audioContextRef.current = ctx;
+
+        // Master output gain
+        const masterGain = ctx.createGain();
+        masterGain.gain.setValueAtTime(0.0001, ctx.currentTime);
+        masterGain.connect(ctx.destination);
+        masterGainRef.current = masterGain;
+
+        // Warm tanpura harmonic drone (Sa = 130.81Hz, Pa = 196Hz, Sa' = 261.63Hz)
+        const droneFrequencies = [
+          { f: 130.81, type: "sine" as OscillatorType, vol: 0.16 },
+          { f: 196.0, type: "sine" as OscillatorType, vol: 0.12 },
+          { f: 261.63, type: "triangle" as OscillatorType, vol: 0.1 },
+          { f: 392.0, type: "sine" as OscillatorType, vol: 0.06 },
+        ];
+
+        droneFrequencies.forEach(({ f, type, vol }) => {
+          const osc = ctx.createOscillator();
+          const gain = ctx.createGain();
+          osc.type = type;
+          osc.frequency.setValueAtTime(f, ctx.currentTime);
+          gain.gain.setValueAtTime(vol, ctx.currentTime);
+
+          // Subtle LFO vibrato for natural organic Indian classical acoustic feel
+          const lfo = ctx.createOscillator();
+          const lfoGain = ctx.createGain();
+          lfo.frequency.setValueAtTime(0.18, ctx.currentTime);
+          lfoGain.gain.setValueAtTime(0.8, ctx.currentTime);
+          lfo.connect(lfoGain);
+          lfoGain.connect(osc.frequency);
+          lfo.start();
+
+          osc.connect(gain);
+          gain.connect(masterGain);
+          osc.start();
         });
-        void audioRef.current.context.close();
       }
-    },
-    [],
-  );
+
+      const ctx = audioContextRef.current;
+      if (ctx.state === "suspended") {
+        await ctx.resume();
+      }
+
+      // Smooth fade-in to audible comfortable volume (0.2)
+      if (masterGainRef.current) {
+        masterGainRef.current.gain.cancelScheduledValues(ctx.currentTime);
+        masterGainRef.current.gain.setValueAtTime(
+          masterGainRef.current.gain.value,
+          ctx.currentTime,
+        );
+        masterGainRef.current.gain.linearRampToValueAtTime(0.2, ctx.currentTime + 0.8);
+      }
+
+      // Auspicious pentatonic melody phrasing (Raga Mohanam / Bhupali: Sa, Ri, Ga, Pa, Dha)
+      const ragaNotes = [261.63, 293.66, 329.63, 392.0, 440.0, 523.25];
+      let noteIndex = 0;
+
+      const playMelodyNote = () => {
+        if (!audioContextRef.current || !isPlayingRef.current) return;
+        const c = audioContextRef.current;
+        if (c.state !== "running") return;
+
+        const noteFreq = ragaNotes[noteIndex % ragaNotes.length];
+        noteIndex = (noteIndex + 1) % ragaNotes.length;
+
+        const noteOsc = c.createOscillator();
+        const noteGain = c.createGain();
+        const filter = c.createBiquadFilter();
+
+        // Warm flute / shehnai timbre
+        noteOsc.type = "triangle";
+        noteOsc.frequency.setValueAtTime(noteFreq, c.currentTime);
+
+        filter.type = "lowpass";
+        filter.frequency.setValueAtTime(1400, c.currentTime);
+
+        // Gentle envelope (attack -> sustain -> release)
+        const now = c.currentTime;
+        noteGain.gain.setValueAtTime(0.0001, now);
+        noteGain.gain.linearRampToValueAtTime(0.09, now + 0.4);
+        noteGain.gain.exponentialRampToValueAtTime(0.0001, now + 2.2);
+
+        noteOsc.connect(filter);
+        filter.connect(noteGain);
+        if (masterGainRef.current) {
+          noteGain.connect(masterGainRef.current);
+        }
+
+        noteOsc.start(now);
+        noteOsc.stop(now + 2.3);
+      };
+
+      // Play melody note periodically
+      playMelodyNote();
+      intervalRef.current = window.setInterval(playMelodyNote, 2400);
+
+      isPlayingRef.current = true;
+      setPlaying(true);
+    } catch (err) {
+      console.warn("Unable to start audio playback:", err);
+      setPlaying(false);
+    }
+  };
+
+  const toggle = () => {
+    if (playing) {
+      stopMusic();
+    } else {
+      void startMusic();
+    }
+  };
+
+  useEffect(() => {
+    return () => {
+      stopMusic();
+      if (audioContextRef.current) {
+        void audioContextRef.current.close().catch(() => {});
+      }
+    };
+  }, []);
 
   return (
-    <Button
-      size="icon"
-      onClick={toggle}
-      className={`music-button ${playing ? "playing" : ""}`}
-      aria-label={playing ? "Pause ambient music" : "Play ambient music"}
-    >
-      {playing ? <Pause className="w-4 h-4" /> : <Music2 className="w-4 h-4" />}
-    </Button>
+    <div className="music-player-container">
+      <Button
+        size="icon"
+        onClick={toggle}
+        className={`music-button ${playing ? "playing" : ""}`}
+        aria-label={playing ? "Pause background music" : "Play background music"}
+        title={playing ? "Pause background music" : "Play background music"}
+      >
+        {playing ? (
+          <div className="music-playing-indicator" aria-hidden="true">
+            <span className="bar bar-1" />
+            <span className="bar bar-2" />
+            <span className="bar bar-3" />
+          </div>
+        ) : (
+          <Music2 className="w-4 h-4" />
+        )}
+      </Button>
+    </div>
   );
 }
 
