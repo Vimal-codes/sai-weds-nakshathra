@@ -1,26 +1,22 @@
 import { Fragment, useEffect, useRef, useState } from "react";
 import {
+  Calendar,
   CalendarDays,
   ChevronDown,
   Clock3,
   Copy,
   MapPin,
-  Menu,
   Music2,
   Pause,
-  Flower,
-  Sparkles,
   X,
 } from "lucide-react";
 import Lenis from "lenis";
 
-import coupleImage from "@/assets/couple-illustration.png";
-import templeImage from "@/assets/temple-gopuram.png";
-import garlandsImage from "@/assets/hanging-garlands.png";
-import lotusCorner from "@/assets/lotus-corner.png";
-import gallerySaree from "@/assets/gallery-saree.jpg";
-import galleryMandap from "@/assets/gallery-mandap.jpg";
-import galleryJewellery from "@/assets/gallery-jewellery.jpg";
+import photo1 from "@/assets/photo/optimized/photo-1.jpg";
+import photo2 from "@/assets/photo/optimized/photo-2.jpg";
+import photo3 from "@/assets/photo/optimized/photo-3.jpg";
+import photo4 from "@/assets/photo/optimized/photo-4.jpg";
+
 import camVenueImage from "@/assets/cam-convention-center.png";
 
 import { Button } from "@/components/ui/button";
@@ -28,20 +24,63 @@ import { Button } from "@/components/ui/button";
 const ceremonyDate = new Date("2026-12-03T10:30:00+05:30");
 const venueMaps =
   "https://www.google.com/maps/search/?api=1&query=CAM+Convention+Center+Moonnamkutty+Kattachira+Kayamkulam";
-const venueAddress = "CAM Convention Center, Moonnamkutty, Kattachira, Kayamkulam";
+const venueAddress = "CAM Convention Center, Moonnamkutty, Kattachira, Kayamkulam, Kerala";
 
-/* ---------------------------------- atoms --------------------------------- */
+function getGoogleCalendarUrl() {
+  const title = encodeURIComponent("Wedding Ceremony: Sai Nath & Dr. Nakshathra");
+  const details = encodeURIComponent(
+    "We invite you to celebrate the wedding ceremony of Sai Nath & Dr. Nakshathra.\n\n" +
+      "✦ Auspicious Muhurtham: 10:30 AM – 10:45 AM (Dhanu Lagna)\n" +
+      "✦ Venue: CAM Convention Center, Moonnamkutty, Kayamkulam, Kerala",
+  );
+  const location = encodeURIComponent(venueAddress);
+  // 10:30 AM IST = 05:00 UTC, 14:00 IST = 08:30 UTC
+  const dates = "20261203T050000Z/20261203T083000Z";
+  return `https://calendar.google.com/calendar/render?action=TEMPLATE&text=${title}&dates=${dates}&details=${details}&location=${location}`;
+}
 
-function Ornament({ label }: { label?: string }) {
+/* ---------------------------------- motifs --------------------------------- */
+
+function TraditionalMotif({ className = "" }: { className?: string }) {
   return (
-    <div className="ornament" aria-hidden={label ? undefined : true}>
-      <span />
-      <span className="ornament-lotus">✦</span>
-      <span />
-      {label && <span className="sr-only">{label}</span>}
+    <div className={`traditional-motif ${className}`} aria-hidden="true">
+      <svg
+        viewBox="0 0 100 24"
+        className="motif-svg"
+        fill="none"
+        xmlns="http://www.w3.org/2000/svg"
+      >
+        <path
+          d="M0 12h38m24 0h38M50 3c2.5 4 4.5 6 9 9-4.5 3-6.5 5-9 9-2.5-4-4.5-6-9-9 4.5-3 6.5-5 9-9z"
+          stroke="currentColor"
+          strokeWidth="1.2"
+          strokeLinecap="round"
+        />
+        <circle cx="50" cy="12" r="2" fill="currentColor" />
+        <circle cx="38" cy="12" r="1.3" fill="currentColor" />
+        <circle cx="62" cy="12" r="1.3" fill="currentColor" />
+      </svg>
     </div>
   );
 }
+
+function ArchFlourish({ className = "" }: { className?: string }) {
+  return (
+    <div className={`arch-flourish ${className}`} aria-hidden="true">
+      <svg viewBox="0 0 120 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path
+          d="M10 35 C 30 10, 90 10, 110 35 M30 35 C 45 20, 75 20, 90 35 M60 5 L 60 18"
+          stroke="currentColor"
+          strokeWidth="1.2"
+          strokeLinecap="round"
+        />
+        <circle cx="60" cy="5" r="1.8" fill="currentColor" />
+      </svg>
+    </div>
+  );
+}
+
+/* -------------------------------- countdown -------------------------------- */
 
 function useCountdown(target: Date) {
   const calculate = () => {
@@ -74,7 +113,7 @@ function RollingDigit({ value }: { value: number }) {
 function Countdown() {
   const time = useCountdown(ceremonyDate);
   if (time.passed) {
-    return <p className="countdown-passed">The celebrations have begun! 🎉</p>;
+    return <p className="countdown-passed">The auspicious wedding ceremony has begun. ✨</p>;
   }
   const units = ["days", "hours", "minutes", "seconds"] as const;
   return (
@@ -99,13 +138,13 @@ function Countdown() {
 }
 
 function Petals() {
-  const petals = Array.from({ length: 10 }).map((_, i) => {
-    const size = 7 + Math.random() * 9;
+  const petals = Array.from({ length: 12 }).map((_, i) => {
+    const size = 5 + Math.random() * 7;
     return {
       id: i,
-      left: `${(i * 11 + Math.random() * 8) % 100}%`,
-      duration: `${12 + Math.random() * 14}s`,
-      delay: `-${Math.random() * 22}s`,
+      left: `${(i * 9 + Math.random() * 8) % 100}%`,
+      duration: `${15 + Math.random() * 12}s`,
+      delay: `-${Math.random() * 18}s`,
       size,
       tone: i % 3,
     };
@@ -120,7 +159,7 @@ function Petals() {
             {
               left: p.left,
               width: p.size,
-              height: p.size * 1.4,
+              height: p.size * 1.5,
               "--duration": p.duration,
               "--delay": p.delay,
             } as React.CSSProperties
@@ -131,133 +170,24 @@ function Petals() {
   );
 }
 
-/* -------------------------------- navigation ------------------------------ */
-
-const NAV_LINKS: [string, string][] = [
-  ["Home", "#home"],
-  ["Invitation", "#invitation"],
-  ["Couple", "#couple"],
-  ["Events", "#events"],
-  ["Gallery", "#gallery"],
-  ["Venue", "#venue"],
-];
-
-function Navigation() {
-  const [open, setOpen] = useState(false);
-  const [scrolled, setScrolled] = useState(false);
-
-  useEffect(() => {
-    const onScroll = () => setScrolled(window.scrollY > 40);
-    onScroll();
-    window.addEventListener("scroll", onScroll, { passive: true });
-    return () => window.removeEventListener("scroll", onScroll);
-  }, []);
-
-  const handleScroll = (e: React.MouseEvent<HTMLAnchorElement>, href: string) => {
-    e.preventDefault();
-    const element = document.getElementById(href.replace("#", ""));
-    if (element) {
-      setOpen(false);
-      element.scrollIntoView({ behavior: "smooth" });
-    }
-  };
-
-  return (
-    <nav
-      className={`floating-nav ${scrolled ? "nav-scrolled" : ""}`}
-      aria-label="Wedding navigation"
-    >
-      <a
-        href="#home"
-        className="nav-monogram"
-        aria-label="Sai Nath and Dr. Nakshathra home"
-        onClick={(e) => handleScroll(e, "#home")}
-      >
-        S <Flower className="nav-flower" aria-hidden /> N
-      </a>
-      <div className="desktop-links">
-        {NAV_LINKS.map(([name, href]) => (
-          <a key={href} href={href} onClick={(e) => handleScroll(e, href)}>
-            {name}
-          </a>
-        ))}
-      </div>
-      <Button
-        variant="ghost"
-        size="icon"
-        className="menu-button"
-        onClick={() => setOpen(!open)}
-        aria-expanded={open}
-        aria-label="Toggle menu"
-      >
-        {open ? <X /> : <Menu />}
-      </Button>
-      {open && (
-        <div className="mobile-links">
-          {NAV_LINKS.map(([name, href]) => (
-            <a key={href} href={href} onClick={(e) => handleScroll(e, href)}>
-              {name}
-            </a>
-          ))}
-        </div>
-      )}
-    </nav>
-  );
-}
-
-/* ----------------------------------- hero --------------------------------- */
-
-function Hero() {
-  return (
-    <header id="home" className="hero">
-      <Petals />
-      <img src={garlandsImage} alt="" className="hero-garland hero-garland-left" />
-      <img src={garlandsImage} alt="" className="hero-garland hero-garland-right" />
-      <img src={lotusCorner} alt="" className="hero-lotus hero-lotus-left" />
-      <img src={lotusCorner} alt="" className="hero-lotus hero-lotus-right" />
-      <div className="hero-copy">
-        <p className="sanskrit reveal" lang="sa">
-          ॥ श्री गणेशाय नमः ॥
-        </p>
-        <Ornament />
-        <p className="eyebrow reveal">Together with their families</p>
-        <h1 className="reveal-group">
-          <span className="split-word reveal-child">Sai Nath</span>
-          <small className="reveal-child">&amp;</small>
-          <span className="split-word reveal-child">Dr. Nakshathra</span>
-        </h1>
-        <p className="hero-sub reveal">invite you to celebrate their beautiful beginning</p>
-        <p className="hero-date reveal">Thursday · 03 December 2026</p>
-        <div className="hero-actions reveal">
-          <Button asChild size="lg" className="gold-button">
-            <a href="#invitation">
-              Open the Invitation <ChevronDown />
-            </a>
-          </Button>
-        </div>
-      </div>
-      <img
-        src={coupleImage}
-        width={1024}
-        height={1408}
-        alt="Illustration of the groom in a champagne-gold kurta and the bride in a crimson silk saree with gold zari"
-        className="hero-couple"
-      />
-      <a href="#invitation" className="hero-scroll" aria-label="Scroll to the invitation">
-        <span className="hero-scroll-track">
-          <span className="hero-scroll-dot" />
-        </span>
-        scroll
-      </a>
-    </header>
-  );
-}
-
 /* ------------------------------- section heading --------------------------- */
 
-function SectionHeading({ eyebrow, children }: { eyebrow?: string; children: React.ReactNode }) {
+function SectionHeading({
+  eyebrow,
+  children,
+  sanskrit,
+}: {
+  eyebrow?: string;
+  children: React.ReactNode;
+  sanskrit?: string;
+}) {
   return (
     <div className="section-heading reveal">
+      {sanskrit && (
+        <p className="sanskrit-heading" lang="sa">
+          {sanskrit}
+        </p>
+      )}
       {eyebrow && <p className="eyebrow">{eyebrow}</p>}
       <h2 className="reveal-group">
         {typeof children === "string"
@@ -268,8 +198,102 @@ function SectionHeading({ eyebrow, children }: { eyebrow?: string; children: Rea
             ))
           : children}
       </h2>
-      <Ornament />
+      <TraditionalMotif className="mt-3" />
     </div>
+  );
+}
+
+/* ----------------------------------- hero ---------------------------------- */
+
+function Hero() {
+  return (
+    <header id="home" className="hero">
+      <Petals />
+      <div className="hero-grid section-inner">
+        <div className="hero-content">
+          <p className="sanskrit reveal" lang="sa">
+            ॥ श्री गणेशाय नमः ॥
+          </p>
+          <div className="hero-badge reveal">
+            <span className="hero-badge-dot" />
+            <span>Wedding Celebration · 03 December 2026</span>
+          </div>
+
+          <p className="eyebrow reveal mt-4">Together with their families</p>
+
+          <h1 className="reveal-group hero-title">
+            <span className="split-word reveal-child">Sai Nath</span>
+            <span className="hero-amp reveal-child">&amp;</span>
+            <span className="split-word reveal-child">Dr. Nakshathra</span>
+          </h1>
+
+          <p className="hero-sub reveal">
+            cordially invite you to join them in celebrating their sacred bond of marriage
+          </p>
+
+          <div className="hero-meta reveal">
+            <div className="hero-meta-item">
+              <CalendarDays className="hero-meta-icon" aria-hidden />
+              <span>Thursday, 03 December 2026</span>
+            </div>
+            <span className="hero-meta-divider" aria-hidden="true">
+              /
+            </span>
+            <div className="hero-meta-item">
+              <Clock3 className="hero-meta-icon" aria-hidden />
+              <span>Muhurtham 10:30 AM – 10:45 AM</span>
+            </div>
+          </div>
+
+          <div className="hero-actions reveal">
+            <Button asChild size="lg" className="rosegold-button">
+              <a href="#invitation">
+                Open Invitation <ChevronDown className="ml-1 w-4 h-4" />
+              </a>
+            </Button>
+            <Button asChild variant="outline" size="lg" className="rosegold-outline-button">
+              <a href={getGoogleCalendarUrl()} target="_blank" rel="noreferrer">
+                <Calendar className="mr-1.5 w-4 h-4" /> Add to Calendar
+              </a>
+            </Button>
+          </div>
+        </div>
+
+        {/* Feature Photo 3: Ethereal Backlit Beach Portrait */}
+        <div className="hero-portrait-wrapper reveal-scale">
+          <div className="arch-frame">
+            <div className="arch-frame-inner">
+              <img
+                src={photo3}
+                alt="Sai Nath & Dr. Nakshathra embracing tenderly against the ocean horizon with sunflowers"
+                width={900}
+                height={1200}
+                className="hero-image"
+                loading="eager"
+              />
+              <div className="frame-overlay-gradient" />
+            </div>
+            <div className="frame-corner frame-corner-tl" />
+            <div className="frame-corner frame-corner-tr" />
+            <div className="frame-corner frame-corner-bl" />
+            <div className="frame-corner frame-corner-br" />
+          </div>
+          <div className="hero-caption-card">
+            <span className="caption-tag">A Beautiful Beginning</span>
+            <p className="caption-quote">
+              &ldquo;Where two souls meet, eternity finds its quiet beginning.&rdquo;
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <a href="#invitation" className="hero-scroll" aria-label="Scroll to the invitation">
+        <span className="hero-scroll-track">
+          <span className="hero-scroll-dot" />
+        </span>
+        <span className="hero-scroll-text">scroll</span>
+      </a>
+    </header>
   );
 }
 
@@ -278,56 +302,101 @@ function SectionHeading({ eyebrow, children }: { eyebrow?: string; children: Rea
 function InvitationSection() {
   return (
     <section id="invitation" className="section invitation-section">
-      <img src={lotusCorner} alt="" loading="lazy" className="section-floral section-floral-left" />
-      <img
-        src={lotusCorner}
-        alt=""
-        loading="lazy"
-        className="section-floral section-floral-right"
-      />
       <div className="section-inner">
-        <div className="invite-card reveal-scale">
-          <p className="sanskrit" lang="sa">
-            ॥ श्री गणेशाय नमः ॥
-          </p>
-          <p className="invite-line">Together with their families</p>
-          <h2 className="invite-names">Sai Nath</h2>
-          <p className="invite-amp">&amp;</p>
-          <h2 className="invite-names">Dr. Nakshathra</h2>
-          <p className="invite-line invite-request">
-            cordially invite you and your family to join the occasion of their joyous wedding
-            festivities on
-          </p>
-          <p className="invite-month">December</p>
-          <p className="invite-date-line">
-            Thursday <span>|</span> 03 <span>|</span> 2026
-          </p>
-          <div className="invite-venue">
-            <p>
-              CAM
-              <br />
-              Convention Center
-              <br />
-              Moonnamkutty
-              <br />
-              Kattachira, Kayamkulam
-            </p>
-          </div>
-          <div className="invite-temple">
-            <div className="invite-time invite-time-left">
-              <h3>Wedding</h3>
-              <p>10:30 AM to 10:45 AM</p>
+        <SectionHeading
+          sanskrit="॥ मङ्गलम् भगवान विष्णुः मङ्गलम् गरुडध्वजः ॥"
+          eyebrow="The Sacred Invitation"
+        >
+          Ceremony of Union
+        </SectionHeading>
+
+        <div className="invite-split-card reveal-scale">
+          {/* Left: Traditional Letterpress Invitation Text */}
+          <div className="invite-text-col">
+            <div className="invite-header-motif">
+              <ArchFlourish />
             </div>
-            <img
-              src={templeImage}
-              alt="Illustrated South Indian temple gopuram rising above lotus blossoms"
-              loading="lazy"
-              width={1024}
-              height={1536}
-            />
-            <div className="invite-time invite-time-right">
-              <h3>Reception</h3>
-              <p>6 PM Onwards</p>
+
+            <p className="sanskrit invite-shloka" lang="sa">
+              ॥ वक्रतुण्ड महाकाय सूर्यकोटि समप्रभ ।
+              <br />
+              निर्विघ्नं कुरु मे देव सर्वकार्येषु सर्वदा ॥
+            </p>
+
+            <p className="invite-line">
+              Together with our families, we invite you to share our joy and bless our new journey
+              as we unite in holy matrimony
+            </p>
+
+            <div className="invite-names-box">
+              <h2 className="invite-name">Sai Nath</h2>
+              <span className="invite-ampersand">&amp;</span>
+              <h2 className="invite-name">Dr. Nakshathra</h2>
+            </div>
+
+            <p className="invite-ceremony-text">on the auspicious day of</p>
+
+            <div className="invite-date-banner">
+              <div className="date-block">
+                <span className="date-day">Thursday</span>
+                <span className="date-number">03</span>
+                <span className="date-year">December 2026</span>
+              </div>
+            </div>
+
+            <div className="invite-schedules">
+              <div className="schedule-item">
+                <span className="schedule-label">Auspicious Muhurtham</span>
+                <span className="schedule-time">10:30 AM – 10:45 AM</span>
+                <span className="schedule-sub">Dhanu Lagna · Wedding Ceremony</span>
+              </div>
+            </div>
+
+            <div className="invite-location">
+              <MapPin className="invite-pin" aria-hidden />
+              <div>
+                <strong>CAM Convention Center</strong>
+                <p>Moonnamkutty, Kattachira, Kayamkulam, Kerala</p>
+              </div>
+            </div>
+
+            <div className="invite-action-row">
+              <Button asChild size="default" className="rosegold-button">
+                <a href={venueMaps} target="_blank" rel="noreferrer">
+                  <MapPin className="mr-1.5 w-3.5 h-3.5" /> View Map
+                </a>
+              </Button>
+              <Button asChild variant="outline" size="default" className="rosegold-outline-button">
+                <a href={getGoogleCalendarUrl()} target="_blank" rel="noreferrer">
+                  <Calendar className="mr-1.5 w-3.5 h-3.5" /> Save Date
+                </a>
+              </Button>
+            </div>
+          </div>
+
+          {/* Right: Feature Photo 1 - Holding Hands */}
+          <div className="invite-photo-col">
+            <div className="photo-card-matted">
+              <div className="matted-image-wrapper">
+                <img
+                  src={photo1}
+                  alt="Sai Nath & Dr. Nakshathra walking hand in hand along the shoreline with sunflowers"
+                  width={900}
+                  height={1200}
+                  loading="lazy"
+                  className="matted-photo"
+                />
+              </div>
+              <div className="matted-caption">
+                <span className="matted-sanskrit" lang="sa">
+                  ॥ पाणिग्रहणम् ॥
+                </span>
+                <p className="matted-english">
+                  &ldquo;I hold thy hand for good fortune, that thou mayst reach old age with me,
+                  thy companion.&rdquo;
+                </p>
+                <span className="matted-cite">— Rigveda 10.85.36</span>
+              </div>
             </div>
           </div>
         </div>
@@ -341,51 +410,215 @@ function InvitationSection() {
 function CoupleSection() {
   return (
     <section id="couple" className="section couple-section">
-      <img src={lotusCorner} alt="" loading="lazy" className="section-floral section-floral-left" />
-      <img
-        src={lotusCorner}
-        alt=""
-        loading="lazy"
-        className="section-floral section-floral-right"
-      />
-      <div className="section-inner couple-grid reveal-group">
-        <figure className="couple-portrait reveal-child">
-          <img
-            src={coupleImage}
-            alt="Sai Nath and Dr. Nakshathra in their wedding attire"
-            loading="lazy"
-            width={1024}
-            height={1408}
-          />
-        </figure>
-        <div className="couple-text">
-          <SectionHeading eyebrow="The happy couple">Two Hearts, One Journey</SectionHeading>
-          <article className="couple-card reveal-child">
-            <span className="eyebrow">The Groom</span>
-            <h3>Sai Nath</h3>
-            <p className="couple-relation">
-              <span className="relation-label">S/o</span>{" "}
-              <span className="parents-name">Mr. Viswanathan &amp; Mrs. Manju Viswanath</span>
-            </p>
-            <p className="couple-address">
-              Koyickleth
-              <br />
-              Muthukulam South P.O., Alappuzha
-            </p>
+      <div className="section-inner">
+        <SectionHeading sanskrit="॥ समञ्जन्त्विति हृदयानि नौ ॥" eyebrow="The Couple">
+          Two Souls, One Heart
+        </SectionHeading>
+
+        <div className="couple-triptych reveal-group">
+          {/* Groom Card */}
+          <article className="family-card groom-card reveal-child">
+            <span className="family-role-badge">The Groom</span>
+            <h3 className="family-member-name">Sai Nath</h3>
+            <TraditionalMotif className="my-3" />
+            <div className="family-info">
+              <p className="relation-line">
+                <span className="relation-tag">Son of</span>
+                <strong className="parent-names">Mr. Viswanathan &amp; Mrs. Manju Viswanath</strong>
+              </p>
+              <div className="residence-block">
+                <span className="residence-title">Family Residence</span>
+                <address className="not-italic">
+                  Koyickleth
+                  <br />
+                  Muthukulam South P.O., Alappuzha
+                </address>
+              </div>
+            </div>
           </article>
-          <article className="couple-card reveal-child">
-            <span className="eyebrow">The Bride</span>
-            <h3>Dr. Nakshathra</h3>
-            <p className="couple-relation">
-              <span className="relation-label">D/o</span>{" "}
-              <span className="parents-name">Mr. Reghunathan &amp; Mrs. Sobha R Nath</span>
-            </p>
-            <p className="couple-address">
-              Nakshtralayam, Cherukunnam
-              <br />
-              Thekkekkara P.O., Mavelikara, Alappuzha
-            </p>
+
+          {/* Center Portrait - Feature Photo 2: Intimate Close-Up Portrait */}
+          <div className="couple-centerpiece reveal-child">
+            <div className="portrait-frame">
+              <img
+                src={photo2}
+                alt="Close-up intimate romantic portrait of Sai Nath & Dr. Nakshathra smiling with shared tenderness"
+                width={900}
+                height={1200}
+                loading="lazy"
+                className="portrait-image"
+              />
+              <div className="portrait-overlay">
+                <span className="portrait-monogram">S · N</span>
+                <span className="portrait-date">03.12.2026</span>
+              </div>
+            </div>
+          </div>
+
+          {/* Bride Card */}
+          <article className="family-card bride-card reveal-child">
+            <span className="family-role-badge">The Bride</span>
+            <h3 className="family-member-name">Dr. Nakshathra</h3>
+            <TraditionalMotif className="my-3" />
+            <div className="family-info">
+              <p className="relation-line">
+                <span className="relation-tag">Daughter of</span>
+                <strong className="parent-names">Mr. Reghunathan &amp; Mrs. Sobha R Nath</strong>
+              </p>
+              <div className="residence-block">
+                <span className="residence-title">Family Residence</span>
+                <address className="not-italic">
+                  Nakshtralayam, Cherukunnam
+                  <br />
+                  Thekkekkara P.O., Mavelikara, Alappuzha
+                </address>
+              </div>
+            </div>
           </article>
+        </div>
+      </div>
+    </section>
+  );
+}
+
+/* ----------------------- seven vows / saptapadi section -------------------- */
+
+const SAPTAPADI_VOWS = [
+  {
+    step: "1st Step",
+    sanskrit: "इष एकपदी भव",
+    meaning: "To nourish and support each other through all walks of life.",
+  },
+  {
+    step: "2nd Step",
+    sanskrit: "ऊर्जे द्विपदी भव",
+    meaning: "To share strength, courage, and protect one another.",
+  },
+  {
+    step: "3rd Step",
+    sanskrit: "रायस्पोषाय त्रिपदी भव",
+    meaning: "To foster prosperity, wisdom, and righteous wealth together.",
+  },
+  {
+    step: "4th Step",
+    sanskrit: "मायोभव्याय चतुष्पदी भव",
+    meaning: "To bring joy, peace, and mutual happiness into our home.",
+  },
+  {
+    step: "5th Step",
+    sanskrit: "प्रजाभ्यः पञ्चपदी भव",
+    meaning: "To nurture family, love, and respect for our elders.",
+  },
+  {
+    step: "6th Step",
+    sanskrit: "ऋतुभ्यः षट्पदी भव",
+    meaning: "To stand united through every season and change in life.",
+  },
+  {
+    step: "7th Step",
+    sanskrit: "सखे सप्तपदी भव",
+    meaning: "To remain lifelong companions, truest friends, and soulmates.",
+  },
+];
+
+function SaptapadiSection() {
+  const [activeStep, setActiveStep] = useState(0);
+
+  return (
+    <section id="vows" className="section vows-section">
+      <div className="section-inner">
+        <SectionHeading
+          sanskrit="॥ सखा सप्तपदा भव । सख्यं ते गमेयम् ॥"
+          eyebrow="The Seven Sacred Steps"
+        >
+          Stepping Into Eternity
+        </SectionHeading>
+
+        <div className="vows-layout reveal-group">
+          {/* Feature Photo 4: Footprints in foaming ocean waves */}
+          <div className="vows-visual-col reveal-child">
+            <div className="vows-photo-card">
+              <div className="vows-photo-wrapper">
+                <img
+                  src={photo4}
+                  alt="Couple's feet stepping gently into the frothy sea surf with flowing white garments"
+                  width={900}
+                  height={1200}
+                  loading="lazy"
+                  className="vows-photo"
+                />
+                <div className="vows-gradient" />
+              </div>
+              <div className="vows-quote-banner">
+                <span className="vows-quote-tag">Saptapadi · सप्तपदी</span>
+                <p>
+                  &ldquo;With seven sacred steps along the shoreline of eternity, we take our walk
+                  as one.&rdquo;
+                </p>
+              </div>
+            </div>
+          </div>
+
+          {/* Right: The 7 Vows Interactive List */}
+          <div className="vows-list-col reveal-child">
+            <div className="vows-intro-card">
+              <h3>The Sacred Vows of Matrimony</h3>
+              <p>
+                In Hindu tradition, the Saptapadi marks the completion of the marriage rite. With
+                each step, the couple pledges eternal friendship, loyalty, and companionship.
+              </p>
+            </div>
+
+            <div className="vows-steps-container">
+              {SAPTAPADI_VOWS.map((item, idx) => {
+                const isActive = activeStep === idx;
+                return (
+                  <button
+                    key={item.step}
+                    type="button"
+                    onClick={() => setActiveStep(idx)}
+                    className={`vow-row ${isActive ? "vow-row-active" : ""}`}
+                    aria-expanded={isActive}
+                  >
+                    <span className="vow-step-number">0{idx + 1}</span>
+                    <div className="vow-content">
+                      <div className="vow-top">
+                        <span className="vow-step-label">{item.step}</span>
+                        <span className="vow-sanskrit" lang="sa">
+                          {item.sanskrit}
+                        </span>
+                      </div>
+                      <p className="vow-meaning">{item.meaning}</p>
+                    </div>
+                  </button>
+                );
+              })}
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+}
+
+/* --------------------------------- countdown ------------------------------- */
+
+function CountdownSection() {
+  return (
+    <section id="countdown" className="section countdown-section">
+      <Petals />
+      <div className="section-inner narrow">
+        <SectionHeading sanskrit="॥ शुभ मुहूर्ते सावधान ॥" eyebrow="Counting Every Moment">
+          Until We Say Yes
+        </SectionHeading>
+        <p className="countdown-date reveal">Thursday · 03 · 12 · 2026</p>
+        <Countdown />
+        <div className="countdown-cta reveal mt-8 text-center">
+          <Button asChild size="lg" className="rosegold-button">
+            <a href={getGoogleCalendarUrl()} target="_blank" rel="noreferrer">
+              <Calendar className="mr-2 w-4 h-4" /> Save the Date to Calendar
+            </a>
+          </Button>
         </div>
       </div>
     </section>
@@ -397,33 +630,41 @@ function CoupleSection() {
 function EventsSection() {
   return (
     <section id="events" className="section events-section">
-      <img src={lotusCorner} alt="" loading="lazy" className="section-floral section-floral-left" />
-      <img
-        src={lotusCorner}
-        alt=""
-        loading="lazy"
-        className="section-floral section-floral-right"
-      />
       <div className="section-inner">
-        <SectionHeading eyebrow="Save the dates">Wedding Events</SectionHeading>
-        <div className="events-grid">
-          <article className="event-card ceremony reveal">
+        <SectionHeading
+          sanskrit="॥ सर्वमङ्गलमाङ्गल्ये शिवे सर्वार्थसाधिके ॥"
+          eyebrow="Auspicious Day"
+        >
+          Wedding Ceremony
+        </SectionHeading>
+
+        <div className="events-single-wrapper reveal-group">
+          {/* Ceremony Sole Card */}
+          <article className="event-card ceremony reveal-child">
+            <div className="event-badge">Sacred Rite</div>
             <h3>Wedding Ceremony</h3>
-            <Ornament />
+            <TraditionalMotif className="my-3" />
             <p className="event-date">Thursday, 3 December 2026</p>
             <div className="event-time-wrapper">
               <p className="event-time">
                 <Clock3 aria-hidden /> 10:30 AM – 10:45 AM
               </p>
-              <span className="event-muhurtham-badge">✦ Muhurtham ✦</span>
+              <span className="event-muhurtham-badge">✦ Auspicious Muhurtham · Dhanu Lagna ✦</span>
             </div>
             <p className="event-venue">CAM Convention Center</p>
-            <p className="event-address">Moonnamkutty, Kattachira, Kayamkulam</p>
-            <Button asChild size="lg" className="gold-button">
-              <a href={venueMaps} target="_blank" rel="noreferrer">
-                <MapPin /> Get Directions
-              </a>
-            </Button>
+            <p className="event-address">Moonnamkutty, Kattachira, Kayamkulam, Kerala</p>
+            <div className="event-buttons">
+              <Button asChild size="default" className="rosegold-button">
+                <a href={venueMaps} target="_blank" rel="noreferrer">
+                  <MapPin className="mr-1.5 w-3.5 h-3.5" /> Get Directions
+                </a>
+              </Button>
+              <Button asChild variant="outline" size="default" className="rosegold-outline-button">
+                <a href={getGoogleCalendarUrl()} target="_blank" rel="noreferrer">
+                  <Calendar className="mr-1.5 w-3.5 h-3.5" /> Add to Calendar
+                </a>
+              </Button>
+            </div>
           </article>
         </div>
       </div>
@@ -433,63 +674,30 @@ function EventsSection() {
 
 /* ------------------------------ gallery section ---------------------------- */
 
-const gallery = [
+/* Keep only the 3 reference images as requested */
+const galleryItems = [
   {
-    src: gallerySaree,
-    alt: "Folded crimson Kanjivaram silk saree with gold zari, jasmine flowers and a gold pendant",
-    width: 928,
-    height: 1152,
+    src: photo1,
+    title: "Hand in Hand",
+    subtitle: "Pani-grahana · Walking together through time",
+    width: 900,
+    height: 1200,
   },
   {
-    src: galleryMandap,
-    alt: "Wedding mandap with marigold garlands, jasmine strings and glowing brass oil lamps",
-    width: 1152,
-    height: 928,
+    src: photo2,
+    title: "Two Souls, One Smile",
+    subtitle: "Tender gaze & cherished promises",
+    width: 900,
+    height: 1200,
   },
   {
-    src: galleryJewellery,
-    alt: "Traditional South Indian gold bridal jewellery on crimson silk",
-    width: 928,
-    height: 1152,
+    src: photo3,
+    title: "A Beautiful Beginning",
+    subtitle: "Golden hour glow & sunflowers by the coast",
+    width: 900,
+    height: 1200,
   },
 ];
-
-function TiltCard({ image, onClick }: { image: (typeof gallery)[number]; onClick: () => void }) {
-  const ref = useRef<HTMLButtonElement>(null);
-  const handleMouseMove = (e: React.MouseEvent) => {
-    if (!ref.current) return;
-    const rect = ref.current.getBoundingClientRect();
-    const x = e.clientX - rect.left;
-    const y = e.clientY - rect.top;
-    const rotateX = ((y - rect.height / 2) / (rect.height / 2)) * -6;
-    const rotateY = ((x - rect.width / 2) / (rect.width / 2)) * 6;
-    ref.current.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale3d(1.02, 1.02, 1.02)`;
-  };
-  const handleMouseLeave = () => {
-    if (!ref.current) return;
-    ref.current.style.transform =
-      "perspective(1000px) rotateX(0deg) rotateY(0deg) scale3d(1, 1, 1)";
-  };
-  return (
-    <button
-      ref={ref}
-      type="button"
-      className="gallery-card reveal-child"
-      onClick={onClick}
-      onMouseMove={handleMouseMove}
-      onMouseLeave={handleMouseLeave}
-      aria-label={`Enlarge ${image.alt}`}
-    >
-      <img
-        src={image.src}
-        alt={image.alt}
-        loading="lazy"
-        width={image.width}
-        height={image.height}
-      />
-    </button>
-  );
-}
 
 function GallerySection() {
   const [selected, setSelected] = useState<number | null>(null);
@@ -498,78 +706,103 @@ function GallerySection() {
     if (selected === null) return;
     const onKey = (e: KeyboardEvent) => {
       if (e.key === "Escape") setSelected(null);
-      if (e.key === "ArrowRight") setSelected((s) => (s === null ? s : (s + 1) % gallery.length));
+      if (e.key === "ArrowRight")
+        setSelected((s) => (s === null ? s : (s + 1) % galleryItems.length));
       if (e.key === "ArrowLeft")
-        setSelected((s) => (s === null ? s : (s - 1 + gallery.length) % gallery.length));
+        setSelected((s) => (s === null ? s : (s - 1 + galleryItems.length) % galleryItems.length));
     };
     window.addEventListener("keydown", onKey);
     return () => window.removeEventListener("keydown", onKey);
   }, [selected]);
 
-  const touchStart = useRef<number | null>(null);
-  const onTouchStart = (e: React.TouchEvent) => {
-    touchStart.current = e.touches[0]?.clientX ?? null;
-  };
-  const onTouchEnd = (e: React.TouchEvent) => {
-    if (touchStart.current === null) return;
-    const touchX = e.changedTouches[0]?.clientX;
-    if (touchX === undefined) return;
-    const delta = touchX - touchStart.current;
-    if (Math.abs(delta) > 60) {
-      setSelected((s) => {
-        if (s === null) return s;
-        return delta < 0 ? (s + 1) % gallery.length : (s - 1 + gallery.length) % gallery.length;
-      });
-    }
-    touchStart.current = null;
-  };
-
-  const current: (typeof gallery)[number] | null =
-    selected === null || !gallery[selected] ? null : gallery[selected]!;
+  const current = selected === null || !galleryItems[selected] ? null : galleryItems[selected];
 
   return (
     <section id="gallery" className="section gallery-section">
-      <img src={lotusCorner} alt="" loading="lazy" className="section-floral section-floral-left" />
-      <img
-        src={lotusCorner}
-        alt=""
-        loading="lazy"
-        className="section-floral section-floral-right"
-      />
       <div className="section-inner">
-        <SectionHeading eyebrow="A glimpse of what awaits">Moments of Love</SectionHeading>
-        <div className="gallery-grid reveal-group">
-          {gallery.map((image, index) => (
-            <TiltCard key={image.src} image={image} onClick={() => setSelected(index)} />
+        <SectionHeading
+          sanskrit="॥ रूपं देहि जयं देहि यशो देहि द्विषो जहि ॥"
+          eyebrow="Visual Showcase"
+        >
+          Moments of Love
+        </SectionHeading>
+
+        <div className="gallery-curated-grid reveal-group">
+          {galleryItems.map((item, index) => (
+            <div
+              key={item.title}
+              className="gallery-showcase-card reveal-child"
+              onClick={() => setSelected(index)}
+              role="button"
+              tabIndex={0}
+              onKeyDown={(e) => {
+                if (e.key === "Enter" || e.key === " ") setSelected(index);
+              }}
+              aria-label={`View ${item.title}`}
+            >
+              <div className="gallery-showcase-image-wrap">
+                <img
+                  src={item.src}
+                  alt={item.title}
+                  loading="lazy"
+                  width={item.width}
+                  height={item.height}
+                  className="gallery-showcase-img"
+                />
+                <div className="gallery-showcase-overlay">
+                  <div className="gallery-overlay-content">
+                    <span className="gallery-index">0{index + 1}</span>
+                    <h3 className="gallery-title">{item.title}</h3>
+                    <p className="gallery-sub">{item.subtitle}</p>
+                    <span className="gallery-zoom-pill">Tap to view</span>
+                  </div>
+                </div>
+              </div>
+            </div>
           ))}
         </div>
       </div>
+
       {current && (
         <div
           className="lightbox"
           role="dialog"
           aria-modal="true"
-          aria-label="Enlarged gallery image"
+          aria-label="Enlarged wedding photograph"
           onClick={() => setSelected(null)}
-          onTouchStart={onTouchStart}
-          onTouchEnd={onTouchEnd}
         >
           <Button
             variant="ghost"
             size="icon"
             onClick={() => setSelected(null)}
-            aria-label="Close gallery"
+            aria-label="Close photo view"
+            className="lightbox-close"
           >
             <X />
           </Button>
-          <img src={current.src} alt={current.alt} />
+
+          <div className="lightbox-image-container" onClick={(e) => e.stopPropagation()}>
+            <img src={current.src} alt={current.title} />
+            <div className="lightbox-caption-bar">
+              <div>
+                <h4>{current.title}</h4>
+                <p>{current.subtitle}</p>
+              </div>
+              <span className="lightbox-counter">
+                {(selected ?? 0) + 1} / {galleryItems.length}
+              </span>
+            </div>
+          </div>
+
           <button
             type="button"
             className="lightbox-arrow lightbox-prev"
-            aria-label="Previous image"
+            aria-label="Previous photo"
             onClick={(e) => {
               e.stopPropagation();
-              setSelected((s) => (s === null ? s : (s - 1 + gallery.length) % gallery.length));
+              setSelected((s) =>
+                s === null ? s : (s - 1 + galleryItems.length) % galleryItems.length,
+              );
             }}
           >
             ‹
@@ -577,10 +810,10 @@ function GallerySection() {
           <button
             type="button"
             className="lightbox-arrow lightbox-next"
-            aria-label="Next image"
+            aria-label="Next photo"
             onClick={(e) => {
               e.stopPropagation();
-              setSelected((s) => (s === null ? s : (s + 1) % gallery.length));
+              setSelected((s) => (s === null ? s : (s + 1) % galleryItems.length));
             }}
           >
             ›
@@ -607,63 +840,71 @@ function VenueSection() {
 
   return (
     <section id="venue" className="section venue-section">
-      <img src={lotusCorner} alt="" loading="lazy" className="section-floral section-floral-left" />
-      <img
-        src={lotusCorner}
-        alt=""
-        loading="lazy"
-        className="section-floral section-floral-right"
-      />
       <div className="section-inner">
-        <SectionHeading eyebrow="Find your way">The Venue</SectionHeading>
-        <div className="venue-card reveal-scale">
-          <div className="venue-photo">
+        <SectionHeading sanskrit="॥ शुभ स्थानम् ॥" eyebrow="Location & Directions">
+          The Wedding Venue
+        </SectionHeading>
+
+        <div className="venue-card-split reveal-scale">
+          <div className="venue-photo-col">
             <img
               src={camVenueImage}
-              alt="CAN Business Center / CAM Convention Center building"
+              alt="CAM Convention Center building in Kayamkulam"
               loading="lazy"
-              width={1536}
-              height={1024}
+              width={1200}
+              height={800}
             />
-          </div>
-          <div className="venue-details">
-            <h3>CAM Convention Center</h3>
-            <p>
-              Moonnamkutty, Kattachira,
-              <br />
-              Kayamkulam, Kerala
-            </p>
-            <div className="venue-times">
-              <span>
-                <strong>Muhurtham</strong> 10:30 AM – 10:45 AM
-              </span>
-              <span>
-                <strong>Reception</strong> 6:00 PM onwards
-              </span>
+            <div className="venue-tag-overlay">
+              <span>Grand Convention Hall</span>
             </div>
-            <div className="venue-actions">
-              <Button asChild size="lg" className="gold-button">
+          </div>
+
+          <div className="venue-details-col">
+            <div className="venue-header-box">
+              <span className="venue-eyebrow">Auspicious Destination</span>
+              <h3>CAM Convention Center</h3>
+              <p className="venue-address-text">
+                Moonnamkutty, Kattachira,
+                <br />
+                Kayamkulam, Alappuzha, Kerala
+              </p>
+            </div>
+
+            <div className="venue-times-box">
+              <div className="venue-time-badge">
+                <strong>Muhurtham:</strong> 10:30 AM – 10:45 AM
+              </div>
+            </div>
+
+            <div className="venue-actions-row">
+              <Button asChild size="lg" className="rosegold-button">
                 <a href={venueMaps} target="_blank" rel="noreferrer">
-                  <MapPin /> Get Directions
+                  <MapPin className="mr-2 w-4 h-4" /> Open in Google Maps
                 </a>
               </Button>
-              <Button variant="outline" size="lg" className="outline-button" onClick={copyAddress}>
+              <Button
+                variant="outline"
+                size="lg"
+                className="rosegold-outline-button"
+                onClick={copyAddress}
+              >
                 {copied ? (
                   <>
-                    <Copy /> Address Copied
+                    <Copy className="mr-2 w-4 h-4 text-emerald-400" /> Address Copied!
                   </>
                 ) : (
                   <>
-                    <Copy /> Copy Address
+                    <Copy className="mr-2 w-4 h-4" /> Copy Address
                   </>
                 )}
               </Button>
             </div>
           </div>
         </div>
-        <div className="venue-map reveal">
+
+        <div className="venue-map reveal mt-8">
           <iframe
-            title="Map of CAM Convention Center, Kayamkulam"
+            title="Map location of CAM Convention Center, Kayamkulam"
             loading="lazy"
             src="https://www.google.com/maps?q=CAM%20Convention%20Center%20Moonnamkutty%20Kattachira%20Kayamkulam&output=embed"
           />
@@ -673,65 +914,70 @@ function VenueSection() {
   );
 }
 
-/* --------------------------------- countdown ------------------------------- */
-
-function CountdownSection() {
-  return (
-    <section id="countdown" className="section countdown-section">
-      <img src={lotusCorner} alt="" loading="lazy" className="section-floral section-floral-left" />
-      <img
-        src={lotusCorner}
-        alt=""
-        loading="lazy"
-        className="section-floral section-floral-right"
-      />
-      <Petals />
-      <div className="section-inner narrow">
-        <SectionHeading eyebrow="Counting every moment">Until We Say Yes</SectionHeading>
-        <p className="countdown-date reveal">Thursday · 03 · 12 · 2026</p>
-        <Countdown />
-      </div>
-    </section>
-  );
-}
-
 /* ------------------------------- music player ------------------------------ */
 
 function MusicPlayer() {
   const [playing, setPlaying] = useState(false);
-  const audioRef = useRef<{ context: AudioContext; oscillators: OscillatorNode[] } | null>(null);
+  const audioRef = useRef<{ context: AudioContext; nodes: AudioNode[] } | null>(null);
+
   const toggle = () => {
     if (audioRef.current) {
-      audioRef.current.oscillators.forEach((oscillator) => oscillator.stop());
+      audioRef.current.nodes.forEach((node) => {
+        if ("stop" in node && typeof (node as OscillatorNode).stop === "function") {
+          (node as OscillatorNode).stop();
+        }
+      });
       void audioRef.current.context.close();
       audioRef.current = null;
       setPlaying(false);
       return;
     }
+
     const AudioContextClass = window.AudioContext;
     if (!AudioContextClass) return;
+
     const context = new AudioContextClass();
-    const gain = context.createGain();
-    gain.gain.value = 0.018;
-    gain.connect(context.destination);
-    const oscillators = [261.63, 329.63, 392].map((frequency) => {
-      const oscillator = context.createOscillator();
-      oscillator.type = "sine";
-      oscillator.frequency.value = frequency;
-      oscillator.connect(gain);
-      oscillator.start();
-      return oscillator;
+    const masterGain = context.createGain();
+    masterGain.gain.setValueAtTime(0.02, context.currentTime);
+    masterGain.connect(context.destination);
+
+    // Warm, meditative acoustic harmonic drone
+    const droneFreqs = [130.81, 196.0, 261.63, 392.0];
+    const nodes: AudioNode[] = [masterGain];
+
+    droneFreqs.forEach((freq, idx) => {
+      const osc = context.createOscillator();
+      const oscGain = context.createGain();
+
+      osc.type = idx % 2 === 0 ? "sine" : "triangle";
+      osc.frequency.setValueAtTime(freq, context.currentTime);
+
+      oscGain.gain.setValueAtTime(0.28 / (idx + 1), context.currentTime);
+      osc.connect(oscGain);
+      oscGain.connect(masterGain);
+
+      osc.start();
+      nodes.push(osc, oscGain);
     });
-    audioRef.current = { context, oscillators };
+
+    audioRef.current = { context, nodes };
     setPlaying(true);
   };
+
   useEffect(
     () => () => {
-      audioRef.current?.oscillators.forEach((oscillator) => oscillator.stop());
-      void audioRef.current?.context.close();
+      if (audioRef.current) {
+        audioRef.current.nodes.forEach((node) => {
+          if ("stop" in node && typeof (node as OscillatorNode).stop === "function") {
+            (node as OscillatorNode).stop();
+          }
+        });
+        void audioRef.current.context.close();
+      }
     },
     [],
   );
+
   return (
     <Button
       size="icon"
@@ -739,7 +985,7 @@ function MusicPlayer() {
       className={`music-button ${playing ? "playing" : ""}`}
       aria-label={playing ? "Pause ambient music" : "Play ambient music"}
     >
-      {playing ? <Pause /> : <Music2 />}
+      {playing ? <Pause className="w-4 h-4" /> : <Music2 className="w-4 h-4" />}
     </Button>
   );
 }
@@ -748,12 +994,23 @@ function MusicPlayer() {
 
 function Footer() {
   return (
-    <footer>
-      <Ornament />
-      <p>With love,</p>
-      <h2>Sai Nath &amp; Dr. Nakshathra</h2>
-      <time>Thursday, 03 December 2026</time>
-      <p className="footer-venue">CAM Convention Center · Kayamkulam</p>
+    <footer className="footer-rosegold">
+      <div className="section-inner narrow text-center">
+        <TraditionalMotif className="mb-4" />
+        <p className="footer-sanskrit" lang="sa">
+          ॥ ॐ सह नाववतु । सह नौ भुनक्तु । सह वीर्यं करवावहै ॥
+        </p>
+        <p className="footer-intro">With love, prayers &amp; blessings from both families,</p>
+        <h2 className="footer-names">Sai Nath &amp; Dr. Nakshathra</h2>
+        <p className="footer-families">
+          Viswanathan &amp; Manju Viswanath · Reghunathan &amp; Sobha R Nath
+        </p>
+        <time className="footer-date">Thursday, 03 December 2026</time>
+        <p className="footer-venue">CAM Convention Center · Kayamkulam, Kerala</p>
+        <div className="footer-bottom-line">
+          <span>Wedding Celebration · 2026</span>
+        </div>
+      </div>
     </footer>
   );
 }
@@ -783,7 +1040,9 @@ function Cursor() {
         target.closest("button") ||
         target.closest("a") ||
         target.closest("input") ||
-        target.closest("textarea")
+        target.closest("textarea") ||
+        target.closest(".gallery-showcase-card") ||
+        target.closest(".vow-row")
       ) {
         cursorRef.current?.classList.add("cursor-hover");
       } else {
@@ -831,20 +1090,13 @@ export function WeddingInvitation() {
             entry.target.classList.add("revealed");
             const children = Array.from(entry.target.querySelectorAll(".reveal-child"));
             children.forEach((child, index) => {
-              (child as HTMLElement).style.transitionDelay = `${index * 120}ms`;
+              (child as HTMLElement).style.transitionDelay = `${index * 100}ms`;
               child.classList.add("revealed");
-            });
-          } else {
-            entry.target.classList.remove("revealed");
-            const children = Array.from(entry.target.querySelectorAll(".reveal-child"));
-            children.forEach((child) => {
-              (child as HTMLElement).style.transitionDelay = "0ms";
-              child.classList.remove("revealed");
             });
           }
         });
       },
-      { threshold: 0.15, rootMargin: "0px 0px -50px 0px" },
+      { threshold: 0.12, rootMargin: "0px 0px -40px 0px" },
     );
 
     const nodes = document.querySelectorAll(".reveal, .reveal-group, .reveal-scale");
@@ -872,6 +1124,7 @@ export function WeddingInvitation() {
       <Hero />
       <InvitationSection />
       <CoupleSection />
+      <SaptapadiSection />
       <CountdownSection />
       <EventsSection />
       <GallerySection />

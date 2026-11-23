@@ -22,6 +22,11 @@ dist-ssr/
 .env.*
 !.env.example
 
+# Large raw media files
+src/assets/photo/*.JPG
+src/assets/photo/*.jpeg
+!src/assets/photo/optimized/
+
 # Editor and OS
 .DS_Store
 Thumbs.db
