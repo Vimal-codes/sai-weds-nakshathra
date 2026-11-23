@@ -1183,3 +1183,4 @@ export function WeddingInvitation() {
     </main>
   );
 }
+
