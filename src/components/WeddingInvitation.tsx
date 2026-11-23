@@ -15,9 +15,8 @@ import Lenis from "lenis";
 import photo1 from "@/assets/photo/optimized/photo-1.jpg";
 import photo2 from "@/assets/photo/optimized/photo-2.jpg";
 import photo3 from "@/assets/photo/optimized/photo-3.jpg";
-import photo4 from "@/assets/photo/optimized/photo-4.jpg";
 
-import camVenueImage from "@/assets/cam-convention-center.png";
+import camVenueImage from "@/assets/cam-convention-center1.png";
 
 import { Button } from "@/components/ui/button";
 
@@ -30,8 +29,8 @@ function getGoogleCalendarUrl() {
   const title = encodeURIComponent("Wedding Ceremony: Sai Nath & Dr. Nakshathra");
   const details = encodeURIComponent(
     "We invite you to celebrate the wedding ceremony of Sai Nath & Dr. Nakshathra.\n\n" +
-      "✦ Auspicious Muhurtham: 10:30 AM – 10:45 AM (Dhanu Lagna)\n" +
-      "✦ Venue: CAM Convention Center, Moonnamkutty, Kayamkulam, Kerala",
+    "✦ Auspicious Muhurtham: 10:30 AM – 10:45 AM (Dhanu Lagna)\n" +
+    "✦ Venue: CAM Convention Center, Moonnamkutty, Kayamkulam, Kerala",
   );
   const location = encodeURIComponent(venueAddress);
   // 10:30 AM IST = 05:00 UTC, 14:00 IST = 08:30 UTC
@@ -192,10 +191,10 @@ function SectionHeading({
       <h2 className="reveal-group">
         {typeof children === "string"
           ? children.split(" ").map((word, i) => (
-              <span key={i} className="inline-block overflow-hidden mr-[0.25em] align-bottom pb-2">
-                <span className="split-word reveal-child">{word}</span>
-              </span>
-            ))
+            <span key={i} className="inline-block overflow-hidden mr-[0.25em] align-bottom pb-2">
+              <span className="split-word reveal-child">{word}</span>
+            </span>
+          ))
           : children}
       </h2>
       <TraditionalMotif className="mt-3" />
@@ -481,126 +480,6 @@ function CoupleSection() {
   );
 }
 
-/* ----------------------- seven vows / saptapadi section -------------------- */
-
-const SAPTAPADI_VOWS = [
-  {
-    step: "1st Step",
-    sanskrit: "इष एकपदी भव",
-    meaning: "To nourish and support each other through all walks of life.",
-  },
-  {
-    step: "2nd Step",
-    sanskrit: "ऊर्जे द्विपदी भव",
-    meaning: "To share strength, courage, and protect one another.",
-  },
-  {
-    step: "3rd Step",
-    sanskrit: "रायस्पोषाय त्रिपदी भव",
-    meaning: "To foster prosperity, wisdom, and righteous wealth together.",
-  },
-  {
-    step: "4th Step",
-    sanskrit: "मायोभव्याय चतुष्पदी भव",
-    meaning: "To bring joy, peace, and mutual happiness into our home.",
-  },
-  {
-    step: "5th Step",
-    sanskrit: "प्रजाभ्यः पञ्चपदी भव",
-    meaning: "To nurture family, love, and respect for our elders.",
-  },
-  {
-    step: "6th Step",
-    sanskrit: "ऋतुभ्यः षट्पदी भव",
-    meaning: "To stand united through every season and change in life.",
-  },
-  {
-    step: "7th Step",
-    sanskrit: "सखे सप्तपदी भव",
-    meaning: "To remain lifelong companions, truest friends, and soulmates.",
-  },
-];
-
-function SaptapadiSection() {
-  const [activeStep, setActiveStep] = useState(0);
-
-  return (
-    <section id="vows" className="section vows-section">
-      <div className="section-inner">
-        <SectionHeading
-          sanskrit="॥ सखा सप्तपदा भव । सख्यं ते गमेयम् ॥"
-          eyebrow="The Seven Sacred Steps"
-        >
-          Stepping Into Eternity
-        </SectionHeading>
-
-        <div className="vows-layout reveal-group">
-          {/* Feature Photo 4: Footprints in foaming ocean waves */}
-          <div className="vows-visual-col reveal-child">
-            <div className="vows-photo-card">
-              <div className="vows-photo-wrapper">
-                <img
-                  src={photo4}
-                  alt="Couple's feet stepping gently into the frothy sea surf with flowing white garments"
-                  width={900}
-                  height={1200}
-                  loading="lazy"
-                  className="vows-photo"
-                />
-                <div className="vows-gradient" />
-              </div>
-              <div className="vows-quote-banner">
-                <span className="vows-quote-tag">Saptapadi · सप्तपदी</span>
-                <p>
-                  &ldquo;With seven sacred steps along the shoreline of eternity, we take our walk
-                  as one.&rdquo;
-                </p>
-              </div>
-            </div>
-          </div>
-
-          {/* Right: The 7 Vows Interactive List */}
-          <div className="vows-list-col reveal-child">
-            <div className="vows-intro-card">
-              <h3>The Sacred Vows of Matrimony</h3>
-              <p>
-                In Hindu tradition, the Saptapadi marks the completion of the marriage rite. With
-                each step, the couple pledges eternal friendship, loyalty, and companionship.
-              </p>
-            </div>
-
-            <div className="vows-steps-container">
-              {SAPTAPADI_VOWS.map((item, idx) => {
-                const isActive = activeStep === idx;
-                return (
-                  <button
-                    key={item.step}
-                    type="button"
-                    onClick={() => setActiveStep(idx)}
-                    className={`vow-row ${isActive ? "vow-row-active" : ""}`}
-                    aria-expanded={isActive}
-                  >
-                    <span className="vow-step-number">0{idx + 1}</span>
-                    <div className="vow-content">
-                      <div className="vow-top">
-                        <span className="vow-step-label">{item.step}</span>
-                        <span className="vow-sanskrit" lang="sa">
-                          {item.sanskrit}
-                        </span>
-                      </div>
-                      <p className="vow-meaning">{item.meaning}</p>
-                    </div>
-                  </button>
-                );
-              })}
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
-  );
-}
-
 /* --------------------------------- countdown ------------------------------- */
 
 function CountdownSection() {
@@ -674,19 +553,19 @@ function EventsSection() {
 
 /* ------------------------------ gallery section ---------------------------- */
 
-/* Keep only the 3 reference images as requested */
+/* Keep only the 3 reference images in requested order */
 const galleryItems = [
-  {
-    src: photo1,
-    title: "Hand in Hand",
-    subtitle: "Pani-grahana · Walking together through time",
-    width: 900,
-    height: 1200,
-  },
   {
     src: photo2,
     title: "Two Souls, One Smile",
     subtitle: "Tender gaze & cherished promises",
+    width: 900,
+    height: 1200,
+  },
+  {
+    src: photo1,
+    title: "Hand in Hand",
+    subtitle: "Pani-grahana · Walking together through time",
     width: 900,
     height: 1200,
   },
@@ -1124,7 +1003,6 @@ export function WeddingInvitation() {
       <Hero />
       <InvitationSection />
       <CoupleSection />
-      <SaptapadiSection />
       <CountdownSection />
       <EventsSection />
       <GallerySection />
