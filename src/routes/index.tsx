@@ -21,12 +21,12 @@ export const Route = createFileRoute("/")({
       { property: "og:url", content: "https://saiwedsnakshathra.in/" },
       {
         property: "og:image",
-        content: "https://saiwedsnakshathra.in/wedding-preview-red.jpg",
+        content: "https://saiwedsnakshathra.in/preview.jpg",
       },
       { name: "twitter:card", content: "summary_large_image" },
       {
         name: "twitter:image",
-        content: "https://saiwedsnakshathra.in/wedding-preview-red.jpg",
+        content: "https://saiwedsnakshathra.in/preview.jpg",
       },
     ],
     links: [{ rel: "canonical", href: "https://saiwedsnakshathra.in/" }],
