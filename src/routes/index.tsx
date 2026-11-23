@@ -18,18 +18,18 @@ export const Route = createFileRoute("/")({
           "Together with our families, we invite you to celebrate with us on 3 December 2026.",
       },
       { property: "og:type", content: "website" },
-      { property: "og:url", content: "https://vimal-codes.github.io/sai-weds-nakshathra/" },
+      { property: "og:url", content: "https://saiwedsnakshathra.in/" },
       {
         property: "og:image",
-        content: "https://vimal-codes.github.io/sai-weds-nakshathra/wedding-preview-red.jpg",
+        content: "https://saiwedsnakshathra.in/wedding-preview-red.jpg",
       },
       { name: "twitter:card", content: "summary_large_image" },
       {
         name: "twitter:image",
-        content: "https://vimal-codes.github.io/sai-weds-nakshathra/wedding-preview-red.jpg",
+        content: "https://saiwedsnakshathra.in/wedding-preview-red.jpg",
       },
     ],
-    links: [{ rel: "canonical", href: "https://vimal-codes.github.io/sai-weds-nakshathra/" }],
+    links: [{ rel: "canonical", href: "https://saiwedsnakshathra.in/" }],
     scripts: [
       {
         type: "application/ld+json",

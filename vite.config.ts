@@ -10,7 +10,7 @@ import { fileURLToPath } from "node:url";
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
 export default defineConfig({
-  base: "/sai-weds-nakshathra/",
+  base: "/",
   plugins: [
     TanStackRouterVite({ target: "react", autoCodeSplitting: true }),
     react(),

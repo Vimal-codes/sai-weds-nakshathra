@@ -53,7 +53,7 @@ function handleAddToCalendar(e?: React.MouseEvent) {
     "END:STANDARD",
     "END:VTIMEZONE",
     "BEGIN:VEVENT",
-    "UID:sai-weds-nakshathra-20261203T103000@vimal-codes.github.io",
+    "UID:sai-weds-nakshathra-20261203T103000@saiwedsnakshathra.in",
     "DTSTAMP:20261123T000000Z",
     "DTSTART;TZID=Asia/Kolkata:20261203T103000",
     "DTEND;TZID=Asia/Kolkata:20261203T112000",
@@ -1183,4 +1183,3 @@ export function WeddingInvitation() {
     </main>
   );
 }
-
